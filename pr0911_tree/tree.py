@@ -35,7 +35,7 @@ def tree(level, leavesOnly = False):
 	if not leavesOnly:
 		turtle.penup()
 		turtle.backward(length)
-	if level in range(3, 7):
+	if level in range(3, 7) and random.random() < 0.3:
 		tree(2, True)
 
 turtle.speed(0)
