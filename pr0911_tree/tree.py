@@ -3,7 +3,8 @@ import turtle
 MAX_LEVEL = 7
 
 def tree(level):
-	length = level * 10
+	length = level * 20
+	turtle.width(level * 2)
 	turtle.forward(length)
 	if (level > 1):
 		turtle.left(20)
