@@ -17,7 +17,7 @@ def setColor(level):
 
 	turtle.pencolor((adjustColorValue(r), adjustColorValue(g), adjustColorValue(b)))
 
-def tree(level, leavesOnly):
+def tree(level, leavesOnly = False):
 	length = level * random.uniform(17, 23)
 	turtle.width(level * 3 - 2)
 	setColor(level)
