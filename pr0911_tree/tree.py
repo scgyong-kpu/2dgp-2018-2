@@ -34,6 +34,8 @@ def tree(level):
 	turtle.penup()
 	# setColor(level)
 	turtle.backward(length)
+	if level in range(3, 7):
+		tree(2)
 
 turtle.speed(0)
 turtle.penup()
