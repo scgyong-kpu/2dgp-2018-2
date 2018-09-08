@@ -11,7 +11,12 @@ def adjustColorValue(v):
 	return v
 
 def setColor(level):
-	(r, g, b) = COLORS[level - 1]
+	if level <= 2:
+		(r, g, b) = (80, 255 - level * 30, 80)
+	else:
+		bright = level - 2
+		(r, g, b) = (180 - 20 * level, 120 - 10 * level, 80 - 8 * level)
+
 	turtle.pencolor((adjustColorValue(r), adjustColorValue(g), adjustColorValue(b)))
 
 # 21, 12, 6
