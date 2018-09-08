@@ -3,8 +3,6 @@ import random
 
 MAX_LEVEL = 7
 
-COLORS = [ (80, 223, 80), (80, 193, 80), (80, 52, 36), (65, 42, 31), (50, 32, 26), (35, 22, 21), (20, 12, 16) ]
-
 def adjustColorValue(v):
 	v = int(v * random.uniform(0.8, 1.2))
 	if v > 255: v = 255
@@ -19,12 +17,9 @@ def setColor(level):
 
 	turtle.pencolor((adjustColorValue(r), adjustColorValue(g), adjustColorValue(b)))
 
-# 21, 12, 6
-# 83, 49, 24
-
 def tree(level):
 	length = level * random.uniform(17, 23)
-	turtle.width(level * 2 - 1)
+	turtle.width(level * 3 - 2)
 	setColor(level)
 	turtle.pendown()
 	turtle.forward(length)
