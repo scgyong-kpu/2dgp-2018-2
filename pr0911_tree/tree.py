@@ -13,5 +13,12 @@ def tree(level):
 		turtle.left(20)
 	turtle.backward(length)
 
+turtle.speed(0)
+turtle.penup()
+turtle.left(90)
+turtle.backward(300)
+turtle.pendown()
+
 tree(MAX_LEVEL)
 
+turtle.exitonclick()
