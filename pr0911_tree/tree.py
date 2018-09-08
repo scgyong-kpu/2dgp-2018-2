@@ -1,4 +1,5 @@
 import turtle
+import random
 
 MAX_LEVEL = 7
 
@@ -11,7 +12,7 @@ def setColor(level):
 # 83, 49, 24
 
 def tree(level):
-	length = level * 20
+	length = level * random.uniform(17, 23)
 	turtle.width(level * 2)
 	setColor(level)
 	# turtle.pendown()
