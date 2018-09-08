@@ -21,13 +21,25 @@ def setColor(level):
 
 	turtle.color((r, g, b))
 
+def leaf():
+	size = random.uniform(10, 15)
+	turtle.width(1)
+	turtle.right(45)
+	turtle.begin_fill()
+	turtle.circle(size, 90)
+	turtle.left(90)
+	turtle.circle(size, 90)
+	turtle.end_fill()
+	turtle.left(135)
+
 def tree(level, leavesOnly = False):
 	length = level * random.uniform(17, 23)
 	setColor(level)
 	if level == 1:
-		turtle.left(180)
-		turtle.stamp()
-		turtle.right(180)
+		leaf()
+		# turtle.left(180)
+		# turtle.stamp()
+		# turtle.right(180)
 	elif not leavesOnly:
 		turtle.width(level * 3 - 2)
 		turtle.pendown()
