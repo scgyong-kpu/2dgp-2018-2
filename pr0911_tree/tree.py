@@ -14,6 +14,7 @@ def tree(level):
 	length = level * 20
 	turtle.width(level * 2)
 	setColor(level)
+	# turtle.pendown()
 	turtle.forward(length)
 	if (level > 1):
 		turtle.left(20)
@@ -21,6 +22,8 @@ def tree(level):
 		turtle.right(40)
 		tree(level - 1)
 		turtle.left(20)
+	# turtle.penup()
+	setColor(level)
 	turtle.backward(length)
 
 turtle.speed(0)
