@@ -15,13 +15,21 @@ def setColor(level):
 		bright = level - 2
 		(r, g, b) = (180 - 20 * level, 120 - 10 * level, 80 - 8 * level)
 
-	turtle.pencolor((adjustColorValue(r), adjustColorValue(g), adjustColorValue(b)))
+	r = adjustColorValue(r)
+	g = adjustColorValue(g)
+	b = adjustColorValue(b)
+
+	turtle.color((r, g, b))
 
 def tree(level, leavesOnly = False):
 	length = level * random.uniform(17, 23)
-	turtle.width(level * 3 - 2)
 	setColor(level)
-	if not leavesOnly:
+	if level == 1:
+		turtle.left(180)
+		turtle.stamp()
+		turtle.right(180)
+	elif not leavesOnly:
+		turtle.width(level * 3 - 2)
 		turtle.pendown()
 		turtle.forward(length)
 	if (level > 1):
@@ -35,7 +43,7 @@ def tree(level, leavesOnly = False):
 			turtle.right(a)
 			angle += a
 		turtle.left(angle)
-	if not leavesOnly:
+	if level != 1 and not leavesOnly:
 		turtle.penup()
 		turtle.backward(length)
 	if level in range(3, 7) and random.random() < 0.3:
