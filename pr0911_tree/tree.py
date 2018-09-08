@@ -25,13 +25,16 @@ def tree(level, leavesOnly = False):
 		turtle.pendown()
 		turtle.forward(length)
 	if (level > 1):
-		left = random.uniform(15, 25)
-		right = random.uniform(15, 25)
-		turtle.left(left)
-		tree(level - 1)
-		turtle.right(left + right)
-		tree(level - 1)
-		turtle.left(right)
+		branchCount = random.randint(2, 3)
+		step = 60 / branchCount
+		angle = random.uniform(-25, -15)
+		turtle.right(angle)
+		for _ in range(branchCount):
+			tree(level - 1)
+			a = (40.0 / (branchCount - 1)) * random.uniform(0.9, 1.1)
+			turtle.right(a)
+			angle += a
+		turtle.left(angle)
 	if not leavesOnly:
 		turtle.penup()
 		turtle.backward(length)
