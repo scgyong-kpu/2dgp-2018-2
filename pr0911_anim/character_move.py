@@ -11,8 +11,9 @@ while (x < 800):
     clear_canvas()
     grass.draw(400, 30)
     character.clip_draw(frame * 100, 0, 100, 100, x, 90)
-    frame = frame + 1
-    if (frame >= 8): frame = 0
+    #frame = frame + 1
+    #if (frame >= 8): frame = 0
+    frame = (frame + 1) % 8
     update_canvas()
     x = x + 2
     delay(0.05)
