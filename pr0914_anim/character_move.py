@@ -15,7 +15,12 @@ while True:
     grass.draw(400, 30)
     if phase == 'right':
         x = x + speed
-        if x > 750:
+        if x >= 400:
+            angle = 0
+            phase = 'circle'
+    elif phase == 'right2':
+        x += speed
+        if x >= 750:
             x = 750
             phase = 'up'
     elif phase == 'up':
@@ -33,6 +38,12 @@ while True:
         if y < 90:
             y = 90
             phase = 'right'
+    elif phase == 'circle':
+        x = 400 + 230 * math.sin(angle)
+        y = 320 - 230 * math.cos(angle)
+        angle += speed * math.pi / 500.0
+        if angle >= 2 * math.pi:
+            phase = 'right2'
 
     # print(x, y)
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
