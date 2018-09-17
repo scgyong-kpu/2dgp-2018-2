@@ -7,7 +7,7 @@ character = load_image('run_animation.png')
 
 frame = 0
 x = 0
-while (x < 800):
+while x < 800:
     clear_canvas()
     grass.draw(400, 30)
     character.clip_draw(frame * 100, 0, 100, 100, x, 90)
