@@ -1,10 +1,10 @@
 from pico2d import *
 
-speed = 2
+speed = 10
 
 def handle_events():
     global running
-    global x
+    global x, dir
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -13,16 +13,22 @@ def handle_events():
             if e.key == SDLK_ESCAPE:
                 running = False
             elif e.key == SDLK_LEFT:
-                x -= speed
+                dir = -1
             elif e.key == SDLK_RIGHT:
-                x += speed
+                dir = 1
+        elif e.type == SDL_KEYUP:
+            if e.key == SDLK_LEFT:
+                dir = 0
+            elif e.key == SDLK_RIGHT:
+                dir = 0
 
 open_canvas()
 
 grass = load_image('grass.png')
 character = load_image('character.png')
 
-x = 0
+x = 800 // 2
+dir = 0
 running = True
 while running:
     clear_canvas()
@@ -30,6 +36,7 @@ while running:
     character.draw(x, 90)
     update_canvas()
     handle_events()
+    x += dir
     delay(0.01)
 
 # fill here
