@@ -1,5 +1,14 @@
 from pico2d import *
 
+def handle_events():
+    global running
+    events = get_events()
+    for e in events:
+        if e.type == SDL_QUIT:
+            running = False
+        elif e.type == SDL_KEYDOWN and e.key == SDLK_ESCAPE:
+            running = False
+
 open_canvas()
 
 grass = load_image('grass.png')
@@ -9,8 +18,8 @@ frame = 0
 x, y = 0, 90
 speed = 20
 phase = 'right'
-
-while True:
+running = True
+while running:
     clear_canvas()
     grass.draw(400, 30)
     if phase == 'right':
@@ -48,9 +57,9 @@ while True:
     # print(x, y)
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
+    handle_events()
     frame = (frame + 1) % 8
     delay(0.05)
-    get_events()
 
 # fill here
 
