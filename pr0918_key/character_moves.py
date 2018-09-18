@@ -4,7 +4,7 @@ speed = 10
 
 def handle_events():
     global running
-    global x, dir
+    global x, y
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -13,7 +13,7 @@ def handle_events():
             if e.key == SDLK_ESCAPE:
                 running = False
         elif e.type == SDL_MOUSEMOTION:
-            print(e.x, e.y)
+            x, y = e.x, 600 - e.y
 
 open_canvas()
 
@@ -21,7 +21,6 @@ grass = load_image('grass.png')
 character = load_image('run_animation.png')
 
 x, y = 800 // 2, 90
-dir = 0
 frame = 0
 running = True
 while running:
@@ -30,7 +29,6 @@ while running:
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
     handle_events()
-    x += dir
     frame = (frame + 1) % 8
     delay(0.01)
 
