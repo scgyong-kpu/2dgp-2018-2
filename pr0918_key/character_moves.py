@@ -13,30 +13,32 @@ def handle_events():
             if e.key == SDLK_ESCAPE:
                 running = False
             elif e.key == SDLK_LEFT:
-                dir = -1
+                dir -= 1
             elif e.key == SDLK_RIGHT:
-                dir = 1
+                dir += 1
         elif e.type == SDL_KEYUP:
             if e.key == SDLK_LEFT:
-                dir = 0
+                dir += 1
             elif e.key == SDLK_RIGHT:
-                dir = 0
+                dir -= 1
 
 open_canvas()
 
 grass = load_image('grass.png')
-character = load_image('character.png')
+character = load_image('run_animation.png')
 
-x = 800 // 2
+x, y = 800 // 2, 90
 dir = 0
+frame = 0
 running = True
 while running:
     clear_canvas()
     grass.draw(400, 30)
-    character.draw(x, 90)
+    character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
     handle_events()
     x += dir
+    frame = (frame + 1) % 8
     delay(0.01)
 
 # fill here
