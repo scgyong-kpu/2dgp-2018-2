@@ -12,15 +12,8 @@ def handle_events():
         elif e.type == SDL_KEYDOWN:
             if e.key == SDLK_ESCAPE:
                 running = False
-            elif e.key == SDLK_LEFT:
-                dir -= 1
-            elif e.key == SDLK_RIGHT:
-                dir += 1
-        elif e.type == SDL_KEYUP:
-            if e.key == SDLK_LEFT:
-                dir += 1
-            elif e.key == SDLK_RIGHT:
-                dir -= 1
+        elif e.type == SDL_MOUSEMOTION:
+            print(e.x, e.y)
 
 open_canvas()
 
