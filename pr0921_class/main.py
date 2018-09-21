@@ -35,7 +35,10 @@ g = Grass()
 # b = Boy()
 # b2 = Boy()
 # b2.y = 200
-boys = [ Boy() ] * 20
+boys = []
+for i in range(20):
+	boys += [ Boy() ]
+	
 for b in boys:
 	b.y = random.randint(90, 550)
 
