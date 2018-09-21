@@ -30,18 +30,15 @@ while running:
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
     handle_events()
-    if x > tx:
-        x -= speed
-        if x < tx: x = tx
-    elif x < tx:
-        x += speed
-        if x > tx: x = tx
-    if y > ty:
-        y -= speed
-        if y < ty: y = ty
-    elif y < ty:
-        y += speed
-        if y > ty: y = ty
+    dx, dy = tx - x, ty - y
+    dist = math.sqrt(dx ** 2 + dy ** 2)
+    x += speed * dx / dist
+    y += speed * dy / dist
+
+    if dx < 0 and x < tx: x = tx
+    if dx > 0 and x > tx: x = tx
+    if dy < 0 and y < ty: y = ty
+    if dy > 0 and y > ty: y = ty
 
     if (x,y) == (tx,ty):
         hide_cursor()
