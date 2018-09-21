@@ -11,14 +11,16 @@ class Grass:
 class Boy:
 	def __init__(self):
 		print("Creating..")
-		self.x, self.y = 0, random.randint(90, 550)
-		self.frame = 0
+		self.x = random.randint(0, 200)
+		self.y = random.randint(90, 550)
+		self.speed = random.uniform(1.0, 3.0)
+		self.frame = random.randint(0, 7)
 		self.image = load_image('../res/run_animation.png')
 	def draw(self):
 		self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 	def update(self):
 		self.frame = (self.frame + 1) % 8
-		self.x += 2
+		self.x += self.speed
 
 def handle_events():
 	global running
