@@ -20,6 +20,7 @@ open_canvas()
 
 grass = load_image('grass.png')
 character = load_image('run_animation.png')
+wp = load_image('wp.png')
 
 x, y = 800 // 2, 90
 # tx, ty = x, y
@@ -29,6 +30,8 @@ running = True
 while running:
     clear_canvas()
     grass.draw(400, 30)
+    for loc in waypoints:
+        wp.draw(loc[0], loc[1])
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
     handle_events()
@@ -47,9 +50,9 @@ while running:
 
         if (x,y) == (tx,ty):
             del waypoints[0]
-            hide_cursor()
-        else:
-            show_cursor()
+            # hide_cursor()
+        # else:
+        #     show_cursor()
     frame = (frame + 1) % 8
     delay(0.01)
 
