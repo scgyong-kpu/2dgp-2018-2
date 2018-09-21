@@ -11,7 +11,7 @@ class Grass:
 class Boy:
 	def __init__(self):
 		print("Creating..")
-		self.x, self.y = 0, 90
+		self.x, self.y = 0, random.randint(90, 550)
 		self.frame = 0
 		self.image = load_image('../res/run_animation.png')
 	def draw(self):
@@ -42,8 +42,8 @@ boys = [ Boy() for i in range(20) ]
 # 	boys += [ Boy() ]
 
 
-for b in boys:
-	b.y = random.randint(90, 550)
+# for b in boys:
+# 	b.y = random.randint(90, 550)
 
 running = True
 
