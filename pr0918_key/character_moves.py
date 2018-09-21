@@ -13,8 +13,11 @@ def handle_events():
             if e.key == SDLK_ESCAPE:
                 running = False
         elif e.type == SDL_MOUSEBUTTONDOWN:
-            tx, ty = e.x, 600 - e.y
-            waypoints += [ (tx, ty) ]
+            if e.button == 1:
+                tx, ty = e.x, 600 - e.y
+                waypoints += [ (tx, ty) ]
+            else:
+                waypoints = []
 
 open_canvas()
 
