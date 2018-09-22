@@ -20,7 +20,18 @@ class Boy:
 		self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 	def update(self):
 		self.frame = (self.frame + 1) % 8
-		self.x += self.speed
+		if self.x < tx:
+			self.x += self.speed
+			if self.x > tx: self.x = tx
+		if self.x > tx:
+			self.x -= self.speed
+			if self.x < tx: self.x = tx
+		if self.y < ty:
+			self.y += self.speed
+			if self.y > ty: self.y = ty
+		if self.y > ty:
+			self.y -= self.speed
+			if self.y < ty: self.y = ty
 
 def handle_events():
 	global running
@@ -30,7 +41,10 @@ def handle_events():
 			running = False
 		if e.type == SDL_KEYDOWN and e.key == SDLK_ESCAPE:
 			running = False
+		if e.type == SDL_MOUSEMOTION:
+			tx, ty = e.x, 600 - e.y
 
+tx, ty = 800 // 2, 600 // 2
 open_canvas()
 
 g = Grass()
