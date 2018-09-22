@@ -35,6 +35,7 @@ class Boy:
 
 def handle_events():
 	global running
+	global tx, ty
 	events = get_events()
 	for e in events:
 		if e.type == SDL_QUIT: 
