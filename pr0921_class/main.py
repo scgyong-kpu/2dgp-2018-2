@@ -17,7 +17,10 @@ class Boy:
         self.frame = random.randint(0, 7)
         self.waypoints = []
         self.image = load_image('../res/run_animation.png')
+        self.wp = load_image('../res/wp.png')
     def draw(self):
+        for wp in self.waypoints:
+            self.wp.draw(wp[0], wp[1])
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
     def update(self):
         self.frame = (self.frame + 1) % 8
