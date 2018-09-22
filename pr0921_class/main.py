@@ -52,7 +52,9 @@ def handle_events():
         if e.type == SDL_MOUSEBUTTONDOWN:
             tx, ty = e.x, 600 - e.y
             for b in boys:
-                b.waypoints += [ (tx, ty) ]
+                bx = tx + random.randint(-50, 50)
+                by = ty + random.randint(-50, 50)
+                b.waypoints += [ (bx, by) ]
 
 
 # tx, ty = 800 // 2, 600 // 2
