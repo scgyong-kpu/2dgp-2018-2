@@ -6,7 +6,7 @@ class Grass:
 		self.image = load_image('../res/grass.png')
 		print(self.image)
 	def draw(self):
-		self.image.draw(400, 300)
+		self.image.draw(400, 30)
 
 class Boy:
 	def __init__(self):
