@@ -39,22 +39,27 @@ class Boy:
 
                 if (tx, ty) == (self.x, self.y):
                     del self.waypoints[0]
-
+span = 50
 def handle_events():
     global running
     global boys
+    global span
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT: 
-           running = False
+            running = False
         if e.type == SDL_KEYDOWN and e.key == SDLK_ESCAPE:
             running = False
+        if e.type == SDL_KEYDOWN:
+            if e.key in range(SDLK_1, SDLK_9 + 1):
+                span = 20 * (e.key - SDLK_0)
+
         if e.type == SDL_MOUSEBUTTONDOWN:
             if e.button == SDL_BUTTON_LEFT:
                 tx, ty = e.x, 600 - e.y
                 for b in boys:
-                    bx = tx + random.randint(-50, 50)
-                    by = ty + random.randint(-50, 50)
+                    bx = tx + random.randint(-span, span)
+                    by = ty + random.randint(-span, span)
                     b.waypoints += [ (bx, by) ]
             else:
                 for b in boys:
