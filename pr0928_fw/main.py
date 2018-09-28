@@ -19,25 +19,40 @@ def handle_events():
             else:
                 waypoints = []
 
-open_canvas()
+def enter():
+    global grass, character, wp, x, y, waypoints, frame, running
+    open_canvas()
 
-grass = load_image('../res/grass.png')
-character = load_image('../res/run_animation.png')
-wp = load_image('../res/wp.png')
+    grass = load_image('../res/grass.png')
+    character = load_image('../res/run_animation.png')
+    wp = load_image('../res/wp.png')
 
-x, y = 800 // 2, 90
-# tx, ty = x, y
-waypoints = []
-frame = 0
-running = True
-while running:
+    x, y = 800 // 2, 90
+    # tx, ty = x, y
+    waypoints = []
+    frame = 0
+    running = True
+
+def main():
+    global running
+    enter()
+    while running:
+        handle_events()
+        update()
+        draw()
+    exit()
+
+def draw():
+    global grass, waypoints, wp, character
     clear_canvas()
     grass.draw(400, 30)
     for loc in waypoints:
         wp.draw(loc[0], loc[1])
     character.clip_draw(frame * 100, 0, 100, 100, x, y)
     update_canvas()
-    handle_events()
+
+def update():
+    global tx, ty, x, y, frame
     if len(waypoints) > 0:
         (tx, ty) = waypoints[0]
         dx, dy = tx - x, ty - y
@@ -60,5 +75,9 @@ while running:
     delay(0.01)
 
 # fill here
-    
-close_canvas()
+
+def exit():
+    close_canvas()
+
+if __name__ == '__main__':
+    main()
