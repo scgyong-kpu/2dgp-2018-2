@@ -1,20 +1,22 @@
+from pico2d import *
 import game_framework
 
 def enter():
-	pass
+	logo = load_image('../res/kpu_credit.png')
 
 def exit():
-	pass
+	del logo
+	#logo = None
 
 def draw():
-	pass
+	logo.draw(400, 300)
 
 def update():
 	pass
 
 def handle_events():
 	pass
-	
+
 def pause():
 	pass
 
