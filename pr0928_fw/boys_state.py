@@ -80,6 +80,7 @@ def main():
     enter()
     while running:
         handle_events()
+        print(running)
         update()
         draw()
     exit()
