@@ -12,6 +12,9 @@ def draw():
 def update():
 	pass
 
+def handle_events():
+	pass
+	
 def pause():
 	pass
 
