@@ -1,4 +1,5 @@
 from pico2d import *
+import game_framework
 import random
 
 class Grass:
@@ -42,16 +43,15 @@ class Boy:
 
 span = 50
 def handle_events():
-    global running
     global boys
     global span
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
-            running = False
+            game_framework.quit()
         elif e.type == SDL_KEYDOWN:
             if e.key == SDLK_ESCAPE:
-                running = False
+                game_framework.quit()
             elif e.key in range(SDLK_1, SDLK_9 + 1):
                 span = 20 * (e.key - SDLK_0)
 
@@ -67,23 +67,22 @@ def handle_events():
                     b.waypoints = []
 
 def enter():
-    global boys, grass, running
+    global boys, grass
     open_canvas()
 
     boys = [ Boy() for i in range(10) ]
     grass = Grass()
 
-    running = True
 
-def main():
-    global running
-    enter()
-    while running:
-        handle_events()
-        print(running)
-        update()
-        draw()
-    exit()
+# def main():
+#     global running
+#     enter()
+#     while running:
+#         handle_events()
+#         print(running)
+#         update()
+#         draw()
+#     exit()
 
 def draw():
     global grass, boys
