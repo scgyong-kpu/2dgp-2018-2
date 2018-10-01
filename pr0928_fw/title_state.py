@@ -26,6 +26,7 @@ def handle_events():
 		elif e.type == SDL_KEYDOWN:
 			if e.key == SDLK_ESCAPE:
 				game_framework.quit()
+				# game_framework.pop_state()
 			elif e.key == SDLK_SPACE:
 				game_framework.push_state(boys_state)
 

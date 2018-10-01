@@ -51,7 +51,7 @@ def handle_events():
             game_framework.quit()
         elif e.type == SDL_KEYDOWN:
             if e.key == SDLK_ESCAPE:
-                game_framework.quit()
+                game_framework.pop_state()
             elif e.key in range(SDLK_1, SDLK_9 + 1):
                 span = 20 * (e.key - SDLK_0)
 
