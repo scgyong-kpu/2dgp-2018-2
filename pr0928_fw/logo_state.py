@@ -5,7 +5,6 @@ import boys_state
 def enter():
 	global logo,count
 	count = 0
-	open_canvas()
 	logo = load_image('../res/kpu_credit.png')
 
 def exit():
