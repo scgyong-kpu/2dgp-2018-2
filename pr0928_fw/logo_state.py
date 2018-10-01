@@ -2,10 +2,11 @@ from pico2d import *
 import game_framework
 # import boys_state
 import title_state
+import time
 
 def enter():
-	global logo,count
-	count = 0
+	global logo,startedOn
+	startedOn = time.time()
 	logo = load_image('../res/kpu_credit.png')
 
 def exit():
@@ -19,12 +20,13 @@ def draw():
 	update_canvas()
 
 def update():
-	global count
-	if (count > 30):
+	global startedOn
+	elapsed = time.time() - startedOn
+	print(elapsed)
+	if elapsed >= 1.0:
 		game_framework.change_state(title_state)
 		return
 	delay(0.03)
-	count += 1
 
 def handle_events():
 	pass
