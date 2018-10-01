@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
-import boys_state
+# import boys_state
+import title_state
 
 def enter():
 	global logo,count
@@ -20,7 +21,7 @@ def draw():
 def update():
 	global count
 	if (count > 30):
-		game_framework.push_state(boys_state)
+		game_framework.change_state(title_state)
 		return
 	delay(0.03)
 	count += 1
