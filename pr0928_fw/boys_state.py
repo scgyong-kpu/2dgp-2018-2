@@ -3,7 +3,7 @@ import game_framework
 import random
 from enum import Enum
 
-BOYS_COUNT = 10
+BOYS_COUNT = 1000
 
 class Grass:
     def __init__(self):
