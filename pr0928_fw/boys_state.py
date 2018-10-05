@@ -1,7 +1,7 @@
 from pico2d import *
 import game_framework
 import random
-
+from enum import Enum
 class Grass:
     def __init__(self):
         self.image = load_image('../res/grass.png')
@@ -10,8 +10,14 @@ class Grass:
         self.image.draw(400, 30)
 
 class Boy:
+    # class State(Enum):
+    #     s1=1
+    #     s2=2
+    #     s3=3
+    #     s4=4
     def __init__(self):
         print("Creating..")
+        # self.state = self.State.s1
         self.x = random.randint(0, 200)
         self.y = random.randint(90, 550)
         self.speed = random.uniform(1.0, 3.0)
