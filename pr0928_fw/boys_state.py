@@ -18,6 +18,8 @@ class Boy:
     #     s2=2
     #     s3=3
     #     s4=4
+    image = None
+    wp = None
     def __init__(self):
         print("Creating..")
         # self.state = self.State.s1
@@ -26,12 +28,14 @@ class Boy:
         self.speed = random.uniform(1.0, 3.0)
         self.frame = random.randint(0, 7)
         self.waypoints = []
-        self.image = load_image('../res/run_animation.png')
-        self.wp = load_image('../res/wp.png')
+        if Boy.image == None:
+            Boy.image = load_image('../res/run_animation.png')
+        if Boy.wp == None:
+            Boy.wp = load_image('../res/wp.png')
     def draw(self):
         for wp in self.waypoints:
-            self.wp.draw(wp[0], wp[1])
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+            Boy.wp.draw(wp[0], wp[1])
+        Boy.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
     def update(self):
         self.frame = (self.frame + 1) % 8
         if len(self.waypoints) > 0:
