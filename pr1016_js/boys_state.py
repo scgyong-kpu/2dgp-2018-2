@@ -16,7 +16,7 @@ class Grass:
 class Boy:
     image = None
     wp = None
-    RUN_LEFT, RUN_RIGT, IDLE_LEFT, IDLE_RIGHT = 0, 1, 2, 3
+    RUN_LEFT, RUN_RIGHT, IDLE_LEFT, IDLE_RIGHT = 0, 1, 2, 3
     def __init__(self):
         print("Creating..")
         # self.state = self.State.s1
@@ -25,6 +25,7 @@ class Boy:
         self.speed = random.uniform(1.0, 3.0)
         self.frame = random.randint(0, 7)
         self.waypoints = []
+        self.state = Boy.IDLE_RIGHT
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
         if Boy.wp == None:
@@ -32,7 +33,7 @@ class Boy:
     def draw(self):
         for wp in self.waypoints:
             Boy.wp.draw(wp[0], wp[1])
-        Boy.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+        Boy.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
     def update(self):
         self.frame = (self.frame + 1) % 8
         if len(self.waypoints) > 0:
@@ -50,6 +51,15 @@ class Boy:
 
                 if (tx, ty) == (self.x, self.y):
                     del self.waypoints[0]
+                    self.determine_state()
+
+    def determine_state(self):
+        if len(self.waypoints) == 0:
+            self.state = Boy.IDLE_RIGHT if self.state == Boy.RUN_RIGHT else  Boy.IDLE_LEFT
+        else:
+            tx,ty = self.waypoints[0]
+            self.state = Boy.RUN_RIGHT if tx > self.x else Boy.RUN_LEFT
+
 
 span = 50
 def handle_events():
@@ -72,9 +82,11 @@ def handle_events():
                     bx = tx + random.randint(-span, span)
                     by = ty + random.randint(-span, span)
                     b.waypoints += [ (bx, by) ]
+                    b.determine_state()
             else:
                 for b in boys:
                     b.waypoints = []
+                    b.determine_state()
 
 def enter():
     global boys, grass
