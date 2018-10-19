@@ -34,12 +34,31 @@ class Boy:
         self.dx = 0
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
-    def draw(self):
+
+    def draw_IDLE(self):
+        y = 200 if self.dir == 0 else 300
+        Boy.image.clip_draw(self.frame * 100, y, 100, 100, self.x, self.y)
+    def update_IDLE(self):
+        self.frame = (self.frame + 1) % 8
+
+    def draw_RUN(self):
         y = 0 if self.dir == 0 else 100
         Boy.image.clip_draw(self.frame * 100, y, 100, 100, self.x, self.y)
-    def update(self):
+    def update_RUN(self):
         self.frame = (self.frame + 1) % 8
         self.x = max(25, min(self.x + self.dx, 775))
+
+    def draw(self):
+        if self.state == IDLE:
+            self.draw_IDLE()
+        elif self.state == RUN:
+            self.draw_RUN()
+
+    def update(self):
+        if self.state == IDLE:
+            self.update_IDLE()
+        elif self.state == RUN:
+            self.update_RUN()
 
     def handle_event(self, e):
         if (e.type, e.key) in key_event_table:
@@ -56,5 +75,7 @@ class Boy:
             elif key_event == LEFT_UP:
                 self.dx += self.speed
                 if self.dx > 0: self.dir = 1
-            print(self.dx, self.dir)
+
+            self.state = IDLE if self.dx == 0 else RUN
+            # print(self.dx, self.dir)
 
