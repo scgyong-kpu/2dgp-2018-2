@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import boy
+from boy import Boy
 
 # from enum import Enum
 
@@ -28,7 +28,7 @@ def handle_events():
 def enter():
     global boy, grass
 
-    boy = boy.Boy()
+    boy = Boy()
     grass = Grass()
 
 
