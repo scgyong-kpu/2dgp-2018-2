@@ -5,7 +5,7 @@ import json
 
 # from enum import Enum
 
-BOYS_COUNT = 1000
+# BOYS_COUNT = 1000
 
 class Grass:
     def __init__(self):
@@ -64,7 +64,7 @@ class Boy:
 
 span = 50
 def handle_events():
-    global boys
+    global boy
     global span
     events = get_events()
     for e in events:
@@ -79,31 +79,16 @@ def handle_events():
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if e.button == SDL_BUTTON_LEFT:
                 tx, ty = e.x, 600 - e.y
-                for b in boys:
-                    bx = tx + random.randint(-span, span)
-                    by = ty + random.randint(-span, span)
-                    b.waypoints += [ (bx, by) ]
-                    b.determine_state()
+                boy.waypoints += [ (tx, ty) ]
+                boy.determine_state()
             else:
-                for b in boys:
-                    b.waypoints = []
-                    b.determine_state()
+                boy.waypoints = []
+                boy.determine_state()
 
 def enter():
-    global boys, grass
+    global boy, grass
 
-    boys = []
-    fh = open('boys_data.json', 'r')
-    data = json.load(fh)
-    for e in data['boys']:
-        b = Boy()
-        b.name = e['name']
-        b.x = e['x']
-        b.y = e['y']
-        b.speed = e['speed']
-        boys.append(b)
-
-    # boys = [ Boy() for i in range(BOYS_COUNT) ]
+    boy = Boy()
     grass = Grass()
 
 
@@ -118,18 +103,15 @@ def enter():
 #     exit()
 
 def draw():
-    global grass, boys
+    global grass, boy
     clear_canvas()
     grass.draw()
-    for b in boys:
-        b.draw()
+    boy.draw()
     update_canvas()
 
 def update():
-    global boys
-    for b in boys:
-        b.update()
-    delay(0.01)
+    boy.update()
+    delay(0.03)
 
 # fill here
 
