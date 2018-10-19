@@ -1,5 +1,6 @@
 from pico2d import *
 import random
+import time
 
 # Boy State
 IDLE, RUN = range(2)
@@ -45,8 +46,11 @@ class Boy:
         y = 0 if self.dir == 0 else 100
         Boy.image.clip_draw(self.frame * 100, y, 100, 100, self.x, self.y)
     def update_RUN(self):
+        elapsed = time.time() - self.time
+        mag = 2 if elapsed > 2.0 else 1
+        print(mag, elapsed)
         self.frame = (self.frame + 1) % 8
-        self.x = max(25, min(self.x + self.dx, 775))
+        self.x = max(25, min(self.x + mag * self.dx, 775))
 
     def draw(self):
         if self.state == IDLE:
@@ -76,6 +80,11 @@ class Boy:
                 self.dx += self.speed
                 if self.dx > 0: self.dir = 1
 
-            self.state = IDLE if self.dx == 0 else RUN
+            self.set_state(IDLE if self.dx == 0 else RUN)
             # print(self.dx, self.dir)
+    def set_state(self, state):
+        if self.state == IDLE and state == RUN:
+            self.time = time.time()
+
+        self.state = state
 
