@@ -3,10 +3,10 @@ import random
 import time
 
 # Boy State
-IDLE, RUN = range(2)
+IDLE, RUN, SLEEP = range(3)
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP = range(4)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT = range(5)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -16,9 +16,11 @@ key_event_table = {
 }
 
 next_state_table = {
-    IDLE: { RIGHT_UP: RUN,  LEFT_UP: RUN,  RIGHT_DOWN: RUN,  LEFT_DOWN: RUN  },
-    RUN:  { RIGHT_UP: IDLE, LEFT_UP: IDLE, RIGHT_DOWN: IDLE, LEFT_DOWN: IDLE }
+    IDLE: { RIGHT_UP: RUN,  LEFT_UP: RUN,  RIGHT_DOWN: RUN,  LEFT_DOWN: RUN, TIME_OUT: SLEEP},
+    RUN:  { RIGHT_UP: IDLE, LEFT_UP: IDLE, RIGHT_DOWN: IDLE, LEFT_DOWN: IDLE },
+    SLEEP: { LEFT_DOWN: RUN, RIGHT_DOWN: RUN }
 }
+
 class Boy:
     image = None
 
@@ -38,10 +40,25 @@ class Boy:
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
 
+    def enter_IDLE(self):
+        self.time = time.time()
     def draw_IDLE(self):
         y = 200 if self.dir == 0 else 300
         Boy.image.clip_draw(self.frame * 100, y, 100, 100, self.x, self.y)
     def update_IDLE(self):
+        self.frame = (self.frame + 1) % 8
+        elapsed = time.time() - self.time
+        if elapsed > 3.0:
+            self.set_state(SLEEP)
+
+    def draw_SLEEP(self):
+        if self.dir == 1:
+            y, mx, angle = 300, -25, 3.141592/2
+        else:
+            y, mx, angle = 200, +25, -3.141592/2
+        Boy.image.clip_composite_draw(self.frame * 100, y, 100, 100, 
+            angle, '', self.x + mx, self.y - 25, 100, 100)
+    def update_SLEEP(self):
         self.frame = (self.frame + 1) % 8
 
     def enter_RUN(self):
@@ -108,8 +125,13 @@ class Boy:
 
     functions = {
         IDLE: {
+            'enter': enter_IDLE,
             'update': update_IDLE,
             'draw': draw_IDLE
+        },
+        SLEEP: {
+            'update': update_SLEEP,
+            'draw': draw_SLEEP
         },
         RUN: {
             'enter': enter_RUN,
