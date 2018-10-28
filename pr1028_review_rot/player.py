@@ -25,8 +25,8 @@ class Player:
         self.barrelImage.draw(self.x, self.y)
 
     def update(self):
-        mag   = -1 if self.keys[SDLK_LEFT] else 0
-        mag  +=  1 if self.keys[SDLK_RIGHT] else 0
+        mag   =  1 if self.keys[SDLK_LEFT] else 0
+        mag  += -1 if self.keys[SDLK_RIGHT] else 0
         move  =  1 if self.keys[SDLK_UP] else 0
         move += -1 if self.keys[SDLK_DOWN] else 0
 
