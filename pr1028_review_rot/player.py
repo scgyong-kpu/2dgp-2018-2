@@ -33,6 +33,7 @@ class Player:
         # print(mag, move)
 
         if mag != 0:
+            if move < 0: mag = -mag
             self.angle += mag * self.rotSpeed
             # print(mag, self.angle)
 
