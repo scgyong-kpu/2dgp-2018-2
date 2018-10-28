@@ -11,6 +11,7 @@ class Player:
         self.x = 400
         self.y = 300
         self.angle = 0
+        self.bAngle = 0
         self.moveSpeed = 100 * 1 / 30
         self.rotSpeed = 1 * math.pi / 60
         self.keys = {}
@@ -22,7 +23,7 @@ class Player:
 
     def draw(self):
         self.bodyImage.composite_draw(self.angle, "", self.x, self.y)
-        self.barrelImage.composite_draw(self.angle, "", self.x, self.y)
+        self.barrelImage.composite_draw(self.angle + self.bAngle, "", self.x, self.y)
 
     def update(self):
         mag   =  1 if self.keys[SDLK_LEFT] else 0
@@ -33,9 +34,12 @@ class Player:
         # print(mag, move)
 
         if mag != 0:
-            if move < 0: mag = -mag
-            self.angle += mag * self.rotSpeed
-            # print(mag, self.angle)
+            if move == 0:
+                self.bAngle += mag * self.rotSpeed
+            else:
+                if move < 0: mag = -mag
+                self.angle += mag * self.rotSpeed
+                # print(mag, self.angle)
 
         if move != 0:
             self.x += -move * self.moveSpeed * math.sin(self.angle)
