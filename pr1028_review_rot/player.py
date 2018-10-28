@@ -37,8 +37,8 @@ class Player:
             # print(mag, self.angle)
 
         if move != 0:
-            dx = self.moveSpeed * math.cos(self.angle)
-            dy = self.moveSpeed * math.sin(self.angle)
+            dx = -self.moveSpeed * math.sin(self.angle)
+            dy = self.moveSpeed * math.cos(self.angle)
             print(dx, dy)
 
 
