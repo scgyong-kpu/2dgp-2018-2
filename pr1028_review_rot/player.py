@@ -11,7 +11,7 @@ class Player:
         self.x = 400
         self.y = 300
         self.angle = 0
-        self.moveSpeed = 10
+        self.moveSpeed = 100 * 1 / 30
         self.rotSpeed = 1 * math.pi / 60
         self.keys = {}
         for k in Player.interested_keys: self.keys[k] = False
@@ -34,7 +34,13 @@ class Player:
 
         if mag != 0:
             self.angle += mag * self.rotSpeed
-            print(mag, self.angle)
+            # print(mag, self.angle)
+
+        if move != 0:
+            dx = self.moveSpeed * math.cos(self.angle)
+            dy = self.moveSpeed * math.sin(self.angle)
+            print(dx, dy)
+
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
