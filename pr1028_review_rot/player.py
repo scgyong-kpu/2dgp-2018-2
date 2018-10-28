@@ -22,7 +22,7 @@ class Player:
 
     def draw(self):
         self.bodyImage.composite_draw(self.angle, "", self.x, self.y)
-        self.barrelImage.draw(self.x, self.y)
+        self.barrelImage.composite_draw(self.angle, "", self.x, self.y)
 
     def update(self):
         mag   =  1 if self.keys[SDLK_LEFT] else 0
