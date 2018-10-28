@@ -1,21 +1,9 @@
 from pico2d import *
 import game_framework
-from boy import Boy
-
-# from enum import Enum
-
-# BOYS_COUNT = 1000
-
-class Grass:
-    def __init__(self):
-        self.image = load_image('../res/grass.png')
-        print(self.image)
-    def draw(self):
-        self.image.draw(400, 30)
+from player import Player
 
 def handle_events():
-    global boy
-    global span
+    global player
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -23,13 +11,12 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
         else:
-            boy.handle_event(e)
+            player.handle_event(e)
 
 def enter():
-    global boy, grass
+    global player
 
-    boy = Boy()
-    grass = Grass()
+    player = Player()
 
 
 # def main():
@@ -43,14 +30,13 @@ def enter():
 #     exit()
 
 def draw():
-    global grass, boy
+    global player
     clear_canvas()
-    grass.draw()
-    boy.draw()
+    player.draw()
     update_canvas()
 
 def update():
-    boy.update()
+    player.update()
     delay(0.03)
 
 # fill here

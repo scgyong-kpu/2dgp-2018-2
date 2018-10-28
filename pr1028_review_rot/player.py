@@ -2,6 +2,24 @@ from pico2d import *
 import random
 import time
 
+# Boy State
+IDLE, RUN, SLEEP = range(3)
+
+# Boy Event
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT = range(5)
+
+key_event_table = {
+    (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
+    (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
+    (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
+    (SDL_KEYUP, SDLK_LEFT): LEFT_UP
+}
+
+next_state_table = {
+    IDLE: { RIGHT_UP: RUN,  LEFT_UP: RUN,  RIGHT_DOWN: RUN,  LEFT_DOWN: RUN, TIME_OUT: SLEEP},
+    RUN:  { RIGHT_UP: IDLE, LEFT_UP: IDLE, RIGHT_DOWN: IDLE, LEFT_DOWN: IDLE },
+    SLEEP: { LEFT_DOWN: RUN, RIGHT_DOWN: RUN }
+}
 
 class Boy:
     image = None
