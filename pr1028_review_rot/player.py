@@ -15,6 +15,7 @@ class Player:
         self.moveSpeed = 10
         self.rotSpeed = 10
         self.keys = {}
+        for k in Player.interested_keys: self.keys[k] = False
         if Player.bodyImage == None:
             Player.bodyImage = load_image('player_body_pix.png')
         if Player.barrelImage == None:
@@ -25,7 +26,11 @@ class Player:
         self.barrelImage.draw(self.x, self.y)
 
     def update(self):
-        pass
+        mag   = -1 if self.keys[SDLK_LEFT] else 0
+        mag  +=  1 if self.keys[SDLK_RIGHT] else 0
+        move  =  1 if self.keys[SDLK_UP] else 0
+        move += -1 if self.keys[SDLK_DOWN] else 0
+        print(mag, move)
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
