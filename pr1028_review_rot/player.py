@@ -21,7 +21,7 @@ class Player:
             Player.barrelImage = load_image('player_barrel_pix.png')
 
     def draw(self):
-        self.bodyImage.draw(self.x, self.y)
+        self.bodyImage.composite_draw(self.angle, "", self.x, self.y)
         self.barrelImage.draw(self.x, self.y)
 
     def update(self):
