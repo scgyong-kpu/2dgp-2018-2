@@ -1,6 +1,5 @@
 from pico2d import *
-import random
-import time
+import math
 
 
 class Player:
@@ -13,7 +12,7 @@ class Player:
         self.y = 300
         self.angle = 0
         self.moveSpeed = 10
-        self.rotSpeed = 10
+        self.rotSpeed = 1 * math.pi / 60
         self.keys = {}
         for k in Player.interested_keys: self.keys[k] = False
         if Player.bodyImage == None:
@@ -30,12 +29,17 @@ class Player:
         mag  +=  1 if self.keys[SDLK_RIGHT] else 0
         move  =  1 if self.keys[SDLK_UP] else 0
         move += -1 if self.keys[SDLK_DOWN] else 0
-        print(mag, move)
+
+        # print(mag, move)
+
+        if mag != 0:
+            self.angle += mag * self.rotSpeed
+            print(mag, self.angle)
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
             if e.key in Player.interested_keys:
                 self.keys[e.key] = e.type == SDL_KEYDOWN
-                print(e.key, e.type == SDL_KEYDOWN)
+                # print(e.key, e.type == SDL_KEYDOWN)
         pass
 
