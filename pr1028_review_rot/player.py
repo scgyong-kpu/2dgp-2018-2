@@ -15,6 +15,8 @@ class Player:
         self.bAngle = 0
         self.bx = self.x
         self.by = self.y - Player.d1 + Player.d2
+        self.mx = self.x
+        self.my = 0
         self.moveSpeed = 100 * 1 / 30
         self.rotSpeed = 1 * math.pi / 60
         self.keys = {}
@@ -37,9 +39,9 @@ class Player:
         # print(mag, move)
 
         if mag != 0:
-            if move == 0:
-                self.bAngle += mag * self.rotSpeed
-            else:
+            # if move == 0:
+            #     self.bAngle += mag * self.rotSpeed
+            # else:
                 if move < 0: mag = -mag
                 self.angle += mag * self.rotSpeed
                 # print(mag, self.angle)
@@ -48,18 +50,23 @@ class Player:
             self.x += -move * self.moveSpeed * math.sin(self.angle)
             self.y += +move * self.moveSpeed * math.cos(self.angle)
 
-        if mag != 0 or move != 0:
-            x, y = self.x, self.y
-            x += +Player.d1 * math.sin(self.angle)
-            y += -Player.d1 * math.cos(self.angle)
-            x += -Player.d2 * math.sin(self.angle + self.bAngle)
-            y += +Player.d2 * math.cos(self.angle + self.bAngle)
-            self.bx, self.by = x, y
+        angle = math.atan2(self.x - self.mx, self.my - self.y)
+        self.bAngle = angle - self.angle
+
+        # if mag != 0 or move != 0:
+        x, y = self.x, self.y
+        x += +Player.d1 * math.sin(self.angle)
+        y += -Player.d1 * math.cos(self.angle)
+        x += -Player.d2 * math.sin(self.angle + self.bAngle)
+        y += +Player.d2 * math.cos(self.angle + self.bAngle)
+        self.bx, self.by = x, y
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
             if e.key in Player.interested_keys:
                 self.keys[e.key] = e.type == SDL_KEYDOWN
                 # print(e.key, e.type == SDL_KEYDOWN)
+        elif e.type == SDL_MOUSEMOTION:
+            self.mx, self.my = e.x, 600 - e.y
         pass
 
