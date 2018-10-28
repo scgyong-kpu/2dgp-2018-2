@@ -6,12 +6,15 @@ class Player:
     bodyImage = None
     barrelImage = None
     interested_keys = [ SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN ]
+    d1, d2 = 16, 35
 
     def __init__(self):
         self.x = 400
         self.y = 300
         self.angle = 0
         self.bAngle = 0
+        self.bx = self.x
+        self.by = self.y - Player.d1 + Player.d2
         self.moveSpeed = 100 * 1 / 30
         self.rotSpeed = 1 * math.pi / 60
         self.keys = {}
@@ -23,7 +26,7 @@ class Player:
 
     def draw(self):
         self.bodyImage.composite_draw(self.angle, "", self.x, self.y)
-        self.barrelImage.composite_draw(self.angle + self.bAngle, "", self.x, self.y)
+        self.barrelImage.composite_draw(self.angle + self.bAngle, "", self.bx, self.by)
 
     def update(self):
         mag   =  1 if self.keys[SDLK_LEFT] else 0
@@ -44,6 +47,14 @@ class Player:
         if move != 0:
             self.x += -move * self.moveSpeed * math.sin(self.angle)
             self.y += +move * self.moveSpeed * math.cos(self.angle)
+
+        if mag != 0 or move != 0:
+            x, y = self.x, self.y
+            x += +Player.d1 * math.sin(self.angle)
+            y += -Player.d1 * math.cos(self.angle)
+            x += -Player.d2 * math.sin(self.angle + self.bAngle)
+            y += +Player.d2 * math.cos(self.angle + self.bAngle)
+            self.bx, self.by = x, y
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
