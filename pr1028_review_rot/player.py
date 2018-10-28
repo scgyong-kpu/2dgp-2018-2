@@ -37,10 +37,8 @@ class Player:
             # print(mag, self.angle)
 
         if move != 0:
-            dx = -self.moveSpeed * math.sin(self.angle)
-            dy = self.moveSpeed * math.cos(self.angle)
-            print(dx, dy)
-
+            self.x += -move * self.moveSpeed * math.sin(self.angle)
+            self.y += +move * self.moveSpeed * math.cos(self.angle)
 
     def handle_event(self, e):
         if e.type == SDL_KEYDOWN or e.type == SDL_KEYUP:
