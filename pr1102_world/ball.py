@@ -2,10 +2,12 @@ from pico2d import *
 import game_world
 
 DEL_MARGIN = 25
-WIND_RESISTANCE = 0.997
+WIND_RESISTANCE = 0.99#7
 BOUNCE_RESISTANCE = 0.70
 GRAVITY = 10 / 33
 BOUNCING_GROUND = 40
+
+MIN_MOVE = 2
 
 class Ball:
     image = None
@@ -28,10 +30,16 @@ class Ball:
         self.dx *= WIND_RESISTANCE
         self.dy -= GRAVITY
 
-        if self.y < BOUNCING_GROUND:
-            self.y = BOUNCING_GROUND + BOUNCING_GROUND - self.y
+        height = self.y - BOUNCING_GROUND
+        if height < 0:
+            self.y -= height
             self.dy *= -BOUNCE_RESISTANCE
 
+        if math.fabs(height) < MIN_MOVE and \
+         math.fabs(self.dx) < MIN_MOVE and \
+         math.fabs(self.dy) < MIN_MOVE:
+            self.dx = self.dy = 0
+            self.y = BOUNCING_GROUND
 
         if self.x < -DEL_MARGIN or \
          self.x > self.canvas_width + DEL_MARGIN or \
