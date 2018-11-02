@@ -30,7 +30,7 @@ class IdleState:
     def update(boy):
         boy.frame = (boy.frame + 1) % 8
         elapsed = time.time() - boy.time
-        if elapsed > 3.0:
+        if elapsed > 10.0:
             boy.set_state(SleepState)
     @staticmethod
     def draw(boy):
@@ -142,5 +142,7 @@ class Boy:
         mag = 1.5 if self.dir == 1 else -1.5
         ballSpeed = mag * self.speed + self.dx
 
-        ball = Ball(big, self.x, self.y, ballSpeed, 2 * self.speed * (1 + random.random()))
+        ySpeed = 2 * self.speed * (1 + random.random())
+        if big: ySpeed *= 0.75
+        ball = Ball(big, self.x, self.y, ballSpeed, ySpeed)
         game_world.add_object(ball, 1)
