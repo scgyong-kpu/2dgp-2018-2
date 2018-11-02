@@ -24,12 +24,19 @@ class Ball:
         self.big = big
         self.x, self.y = x, y
         self.dx, self.dy = dx, dy
+        self.stopTimer = 0
     def draw(self):
         if self.big:
             self.image2.draw(self.x, self.y)
         else:
             self.image.draw(self.x, self.y)
     def update(self):
+        if self.stopTimer > 0:
+            elapsed = get_time() - self.stopTimer
+            if elapsed > 3.0:
+                game_world.remove_object(self)
+            return
+
         self.x += self.dx
         self.y += self.dy
 
@@ -46,6 +53,7 @@ class Ball:
          math.fabs(self.dy) < MIN_MOVE:
             self.dx = self.dy = 0
             self.y = BOUNCING_GROUND
+            self.stopTimer = get_time()
 
         if self.x < -DEL_MARGIN or \
          self.x > self.canvas_width + DEL_MARGIN or \
