@@ -87,7 +87,8 @@ class Boy:
     def __init__(self):
         print("Creating..")
         self.x = random.randint(0, 200)
-        self.y = random.randint(90, 550)
+        # self.y = random.randint(90, 550)
+        self.y = 90
         self.speed = random.uniform(3.0, 5.0)
         self.frame = random.randint(0, 7)
         self.state = None
@@ -137,5 +138,8 @@ class Boy:
         if self.state.enter:
             self.state.enter(self)
     def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dx + 1, 0)
+        mag = 1.5 if self.dir == 1 else -1.5
+        ballSpeed = mag * self.speed + self.dx
+
+        ball = Ball(self.x, self.y, ballSpeed, 0)
         game_world.add_object(ball, 1)
