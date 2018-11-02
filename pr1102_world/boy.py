@@ -8,7 +8,7 @@ from ball import Ball
 # IDLE, RUN, SLEEP = range(3)
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT, SPACE_DOWN = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT, SPACE_DOWN, ENTER_DOWN = range(7)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -16,6 +16,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN,
+    (SDL_KEYDOWN, SDLK_RETURN): ENTER_DOWN,
 }
 
 class IdleState:
@@ -107,8 +108,8 @@ class Boy:
     def handle_event(self, e):
         if (e.type, e.key) in key_event_table:
             key_event = key_event_table[(e.type, e.key)]
-            if key_event == SPACE_DOWN:
-                self.fire_ball()
+            if key_event == SPACE_DOWN or key_event == ENTER_DOWN:
+                self.fire_ball(key_event == ENTER_DOWN)
                 if self.state == SleepState:
                     self.set_state(IdleState)
                 return
@@ -137,9 +138,9 @@ class Boy:
 
         if self.state.enter:
             self.state.enter(self)
-    def fire_ball(self):
+    def fire_ball(self, big):
         mag = 1.5 if self.dir == 1 else -1.5
         ballSpeed = mag * self.speed + self.dx
 
-        ball = Ball(self.x, self.y, ballSpeed, 2 * self.speed * (1 + random.random()))
+        ball = Ball(big, self.x, self.y, ballSpeed, 2 * self.speed * (1 + random.random()))
         game_world.add_object(ball, 1)

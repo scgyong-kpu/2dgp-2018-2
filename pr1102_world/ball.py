@@ -11,18 +11,24 @@ MIN_MOVE = 2
 
 class Ball:
     image = None
+    image2 = None
     canvas_width = 0
     canvas_height = 0
-    def __init__(self, x=50, y=300, dx=1, dy=0):
+    def __init__(self, big, x=50, y=300, dx=1, dy=0):
         if Ball.image == None:
             Ball.image = load_image('../res/ball21x21.png')
+            Ball.image2 = load_image('../res/ball41x41.png')
         if Ball.canvas_width == 0:
             Ball.canvas_width = get_canvas_width()
             Ball.canvas_height = get_canvas_height()
+        self.big = big
         self.x, self.y = x, y
         self.dx, self.dy = dx, dy
     def draw(self):
-        self.image.draw(self.x, self.y)
+        if self.big:
+            self.image2.draw(self.x, self.y)
+        else:
+            self.image.draw(self.x, self.y)
     def update(self):
         self.x += self.dx
         self.y += self.dy
