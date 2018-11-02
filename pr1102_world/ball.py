@@ -1,7 +1,7 @@
 from pico2d import *
 import game_world
 
-DEL_MARGIN = -25
+DEL_MARGIN = 25
 
 class Ball:
     image = None
