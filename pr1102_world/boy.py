@@ -1,18 +1,21 @@
 from pico2d import *
 import random
 import time
+import game_world
+from ball import Ball
 
 # Boy State
 # IDLE, RUN, SLEEP = range(3)
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT = range(5)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT, SPACE_DOWN = range(6)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
-    (SDL_KEYUP, SDLK_LEFT): LEFT_UP
+    (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN,
 }
 
 class IdleState:
@@ -103,6 +106,11 @@ class Boy:
     def handle_event(self, e):
         if (e.type, e.key) in key_event_table:
             key_event = key_event_table[(e.type, e.key)]
+            if key_event == SPACE_DOWN:
+                self.fire_ball()
+                if self.state == SleepState:
+                    self.set_state(IdleState)
+                return
             if key_event == RIGHT_DOWN:
                 self.dx += self.speed
                 if self.dx > 0: self.dir = 1
@@ -128,4 +136,6 @@ class Boy:
 
         if self.state.enter:
             self.state.enter(self)
-
+    def fire_ball(self):
+        ball = Ball(self.x, self.y, self.dx + 1, 0)
+        game_world.add_object(ball, 1)

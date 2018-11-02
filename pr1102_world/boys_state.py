@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 from boy import Boy
+import game_world
 
 # from enum import Enum
 
@@ -12,10 +13,11 @@ class Grass:
         print(self.image)
     def draw(self):
         self.image.draw(400, 30)
+    def update(self):
+        pass
 
 def handle_events():
     global boy
-    global span
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -30,33 +32,22 @@ def enter():
 
     boy = Boy()
     grass = Grass()
-
-
-# def main():
-#     global running
-#     enter()
-#     while running:
-#         handle_events()
-#         print(running)
-#         update()
-#         draw()
-#     exit()
+    game_world.add_object(grass, 0)
+    game_world.add_object(boy, 1)
 
 def draw():
-    global grass, boy
     clear_canvas()
-    grass.draw()
-    boy.draw()
+    game_world.draw()
     update_canvas()
 
 def update():
-    boy.update()
+    game_world.update()
     delay(0.03)
 
 # fill here
 
 def exit():
-    pass
+    game_world.clear()
 
 if __name__ == '__main__':
     import sys
