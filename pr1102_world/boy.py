@@ -141,5 +141,5 @@ class Boy:
         mag = 1.5 if self.dir == 1 else -1.5
         ballSpeed = mag * self.speed + self.dx
 
-        ball = Ball(self.x, self.y, ballSpeed, self.speed * (1 + random.random()))
+        ball = Ball(self.x, self.y, ballSpeed, 2 * self.speed * (1 + random.random()))
         game_world.add_object(ball, 1)

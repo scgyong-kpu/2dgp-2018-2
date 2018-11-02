@@ -21,6 +21,9 @@ class Ball:
         self.x += self.dx
         self.y += self.dy
 
+        self.dx *= 0.99
+        self.dy -= 10 / 30
+
         if self.x < -DEL_MARGIN or \
          self.x > self.canvas_width + DEL_MARGIN or \
          self.y < -DEL_MARGIN or \
