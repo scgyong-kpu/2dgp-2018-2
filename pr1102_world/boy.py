@@ -148,5 +148,5 @@ class Boy:
 
         ySpeed = 2 * self.speed * (1 + random.random())
         if big: ySpeed *= 0.75
-        ball = Ball(big, self.x, self.y, ballSpeed, ySpeed)
+        ball = Ball(big, self.x, self.y + 70, ballSpeed, ySpeed)
         game_world.add_object(ball, game_world.layer_obstacle)
