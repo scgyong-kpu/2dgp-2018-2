@@ -32,8 +32,8 @@ def enter():
 
     boy = Boy()
     grass = Grass()
-    game_world.add_object(grass, 0)
-    game_world.add_object(boy, 1)
+    game_world.add_object(grass, game_world.layer_bg)
+    game_world.add_object(boy, game_world.layer_player)
 
 def draw():
     clear_canvas()
