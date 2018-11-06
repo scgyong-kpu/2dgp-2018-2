@@ -1,1 +1,1 @@
-draws_bounding_box = False
+draws_bounding_box = True
