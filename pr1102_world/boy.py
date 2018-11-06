@@ -99,6 +99,9 @@ class Boy:
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
 
+    def get_bb(self):
+        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+
     def draw(self):
         self.state.draw(self)
 
@@ -140,6 +143,7 @@ class Boy:
             self.state.enter(self)
     def fire_ball(self, big):
         mag = 1.5 if self.dir == 1 else -1.5
+        mag *= random.uniform(0.5, 1.0)
         ballSpeed = mag * self.speed + self.dx
 
         ySpeed = 2 * self.speed * (1 + random.random())

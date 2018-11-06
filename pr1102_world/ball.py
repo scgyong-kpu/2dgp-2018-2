@@ -25,6 +25,11 @@ class Ball:
         self.x, self.y = x, y
         self.dx, self.dy = dx, dy
         self.stopTimer = 0
+    def get_bb(self):
+        if self.big:
+            return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        else:
+            return self.x - 10, self.y - 10, self.x + 10, self.y + 10
     def draw(self):
         if self.big:
             self.image2.draw(self.x, self.y)
