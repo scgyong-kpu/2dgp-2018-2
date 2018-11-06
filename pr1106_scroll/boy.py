@@ -2,7 +2,7 @@ from pico2d import *
 import random
 import time
 import game_world
-from ball import Ball
+# from ball import Ball
 
 # Boy State
 # IDLE, RUN, SLEEP = range(3)
@@ -108,11 +108,11 @@ class Boy:
     def handle_event(self, e):
         if (e.type, e.key) in key_event_table:
             key_event = key_event_table[(e.type, e.key)]
-            if key_event == SPACE_DOWN or key_event == ENTER_DOWN:
-                self.fire_ball(key_event == ENTER_DOWN)
-                if self.state == SleepState:
-                    self.set_state(IdleState)
-                return
+            # if key_event == SPACE_DOWN or key_event == ENTER_DOWN:
+            #     self.fire_ball(key_event == ENTER_DOWN)
+            #     if self.state == SleepState:
+            #         self.set_state(IdleState)
+            #     return
             if key_event == RIGHT_DOWN:
                 self.dx += self.speed
                 if self.dx > 0: self.dir = 1
@@ -138,11 +138,11 @@ class Boy:
 
         if self.state.enter:
             self.state.enter(self)
-    def fire_ball(self, big):
-        mag = 1.5 if self.dir == 1 else -1.5
-        ballSpeed = mag * self.speed + self.dx
+    # def fire_ball(self, big):
+    #     mag = 1.5 if self.dir == 1 else -1.5
+    #     ballSpeed = mag * self.speed + self.dx
 
-        ySpeed = 2 * self.speed * (1 + random.random())
-        if big: ySpeed *= 0.75
-        ball = Ball(big, self.x, self.y, ballSpeed, ySpeed)
-        game_world.add_object(ball, game_world.layer_obstacle)
+    #     ySpeed = 2 * self.speed * (1 + random.random())
+    #     if big: ySpeed *= 0.75
+    #     ball = Ball(big, self.x, self.y, ballSpeed, ySpeed)
+    #     game_world.add_object(ball, game_world.layer_obstacle)
