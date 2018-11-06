@@ -2,6 +2,7 @@ from pico2d import *
 import random
 import time
 import game_world
+import config
 from ball import Ball
 
 # Boy State
@@ -104,6 +105,8 @@ class Boy:
 
     def draw(self):
         self.state.draw(self)
+        if config.draws_bounding_box:
+            draw_rectangle(*self.get_bb())
 
     def update(self):
         self.state.update(self)

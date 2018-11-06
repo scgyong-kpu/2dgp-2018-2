@@ -1,5 +1,6 @@
 from pico2d import *
 import game_world
+import config
 
 DEL_MARGIN = 25
 WIND_RESISTANCE = 0.99#7
@@ -35,6 +36,8 @@ class Ball:
             self.image2.draw(self.x, self.y)
         else:
             self.image.draw(self.x, self.y)
+        if config.draws_bounding_box:
+            draw_rectangle(*self.get_bb())
     def update(self):
         if self.stopTimer > 0:
             elapsed = get_time() - self.stopTimer
