@@ -31,7 +31,7 @@ class IdleState:
     def update(boy):
         boy.frame = (boy.frame + 1) % 8
         elapsed = time.time() - boy.time
-        if elapsed > 10.0:
+        if elapsed > 2.0:
             boy.set_state(SleepState)
     @staticmethod
     def draw(boy):
@@ -101,7 +101,15 @@ class Boy:
             Boy.image = load_image('../res/animation_sheet.png')
 
     def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+        if self.state == IdleState:
+            return self.x - 15, self.y - 40, self.x + 15, self.y + 40
+        if self.state == RunState:
+            return self.x - 20, self.y - 40, self.x + 20, self.y + 40
+        if self.state == SleepState:
+            if self.dir == 1:
+                return self.x - 70, self.y - 40, self.x + 10, self.y
+            else:
+                return self.x - 10, self.y - 40, self.x + 70, self.y
 
     def draw(self):
         self.state.draw(self)
