@@ -41,6 +41,9 @@ def draw():
     update_canvas()
 
 def collides(a, b):
+    if not hasattr(a, 'get_bb'): return False
+    if not hasattr(b, 'get_bb'): return False
+
     la, ba, ra, ta = a.get_bb()
     lb, bb, rb, tb = b.get_bb()
     if la > ra: return False
