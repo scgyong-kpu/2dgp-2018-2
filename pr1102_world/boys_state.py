@@ -53,6 +53,7 @@ def update():
     for ball in game_world.objects_at_layer(game_world.layer_obstacle):
         if collides(boy, ball):
             print("Collision:", ball)
+            game_world.remove_object(ball)
     delay(0.03)
 
 # fill here
