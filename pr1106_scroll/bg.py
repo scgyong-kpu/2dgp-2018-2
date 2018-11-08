@@ -21,8 +21,11 @@ class ParallexLayer:
 
 class ParallexBackground:
     def __init__(self):
-        self.layer = ParallexLayer('../res/b0.png', 0.5)
-        self.layer1 = ParallexLayer('../res/b1.png', 1)
+        self.layers = [\
+            ParallexLayer('../res/b0.png', 0.3), \
+            ParallexLayer('../res/b1.png', 0.7), \
+            ParallexLayer('../res/b2.png', 1.0), \
+        ]
         self.min_x, self.min_y = 0, 100
         self.max_x, self.max_y = 20000, 100,
         self.x, self.y = 0, 0
@@ -31,12 +34,10 @@ class ParallexBackground:
         o.x = clamp(self.min_x, o.x, self.max_x) 
         o.y = clamp(self.min_y, o.y, self.max_y) 
     def draw(self):
-        self.layer.draw()
-        self.layer1.draw()
+        for l in self.layers: l.draw()
     def update(self):
         self.x = int(self.target.x - 100)
-        self.layer.update(self.x)
-        self.layer1.update(self.x)
+        for l in self.layers: l.update(self.x)
 
 class Background:
     def __init__(self):
