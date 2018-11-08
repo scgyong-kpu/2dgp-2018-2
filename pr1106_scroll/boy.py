@@ -22,6 +22,7 @@ class IdleState:
         Boy.image.clip_draw(boy.frame * 100, y, 100, 100, boy.x, boy.y)
 
 class RunState:
+    MARGIN = 25
     @staticmethod
     def enter(boy):
         boy.time = time.time()
@@ -34,12 +35,12 @@ class RunState:
         mag = 2 if elapsed > 2.0 else 1
         # print(mag, elapsed)
         boy.frame = (boy.frame + 1) % 8
-        boy.x = max(25, min(boy.x + mag * boy.mag * boy.dx, 775))
-        boy.y = max(25, min(boy.y + mag * boy.mag * boy.dy, 575))
+        boy.x = max(RunState.MARGIN, min(boy.x + mag * boy.mag * boy.dx, boy.bg.width - RunState.MARGIN))
+        boy.y = max(RunState.MARGIN, min(boy.y + mag * boy.mag * boy.dy, boy.bg.height - RunState.MARGIN))
     @staticmethod
     def draw(boy):
-        y = 0 if boy.dir == 0 else 100
-        Boy.image.clip_draw(boy.frame * 100, y, 100, 100, boy.x, boy.y)
+        src_y = 0 if boy.dir == 0 else 100
+        Boy.image.clip_draw(boy.frame * 100, src_y, 100, 100, boy.x, boy.y)
 
 class SleepState:
     @staticmethod
