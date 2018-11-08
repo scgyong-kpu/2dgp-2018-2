@@ -2,22 +2,6 @@ from pico2d import *
 import random
 import time
 import game_world
-# from ball import Ball
-
-# Boy State
-# IDLE, RUN, SLEEP = range(3)
-
-# Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT, SPACE_DOWN, ENTER_DOWN = range(7)
-
-key_event_table = {
-    (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
-    (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
-    (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
-    (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN,
-    (SDL_KEYDOWN, SDLK_RETURN): ENTER_DOWN,
-}
 
 class IdleState:
     @staticmethod
@@ -75,12 +59,6 @@ class SleepState:
         Boy.image.clip_composite_draw(boy.frame * 100, y, 100, 100, 
             angle, '', boy.x + mx, boy.y - 25, 100, 100)
 
-next_state_table = {
-    IdleState: { RIGHT_UP: RunState,  LEFT_UP: RunState,  RIGHT_DOWN: RunState,  LEFT_DOWN: RunState, TIME_OUT: SleepState},
-    RunState:  { RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState },
-    SleepState: { LEFT_DOWN: RunState, RIGHT_DOWN: RunState }
-}
-
 
 class Boy:
     image = None
@@ -96,6 +74,7 @@ class Boy:
         self.set_state(IdleState)
         self.dir = 1
         self.dx = 0
+        self.dy = 0
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
 
@@ -106,28 +85,20 @@ class Boy:
         self.state.update(self)
 
     def handle_event(self, e):
-        if (e.type, e.key) in key_event_table:
-            key_event = key_event_table[(e.type, e.key)]
-            # if key_event == SPACE_DOWN or key_event == ENTER_DOWN:
-            #     self.fire_ball(key_event == ENTER_DOWN)
-            #     if self.state == SleepState:
-            #         self.set_state(IdleState)
-            #     return
-            if key_event == RIGHT_DOWN:
-                self.dx += self.speed
-                if self.dx > 0: self.dir = 1
-            elif key_event == LEFT_DOWN:
-                self.dx -= self.speed
-                if self.dx < 0: self.dir = 0
-            elif key_event == RIGHT_UP:
-                self.dx -= self.speed
-                if self.dx < 0: self.dir = 0
-            elif key_event == LEFT_UP:
-                self.dx += self.speed
-                if self.dx > 0: self.dir = 1
+        if (e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHT):
+            self.dx += self.speed
+            if self.dx > 0: self.dir = 1
+        elif (e.type, e.key) == (SDL_KEYUP, SDLK_RIGHT):
+            self.dx -= self.speed
+            if self.dx < 0: self.dir = 0
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_LEFT):
+            self.dx -= self.speed
+            if self.dx < 0: self.dir = 0
+        elif (e.type, e.key) == (SDL_KEYUP, SDLK_LEFT):
+            self.dx += self.speed
+            if self.dx > 0: self.dir = 1
 
-            self.set_state(IdleState if self.dx == 0 else RunState)
-            # print(self.dx, self.dir)
+        self.set_state(IdleState if self.dx == 0 and self.dy == 0 else RunState)
     def set_state(self, state):
         if self.state == state: return
 
