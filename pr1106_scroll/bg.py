@@ -31,6 +31,8 @@ class InfiniteBackground:
         self.image.clip_draw_to_origin(self.x3, self.y3, self.w3, self.h3, 0, 0)
         self.image.clip_draw_to_origin(self.x2, self.y2, self.w2, self.h2, 0, self.h3)
         self.image.clip_draw_to_origin(self.x4, self.y4, self.w4, self.h4, self.w3, 0)
+        self.image.clip_draw_to_origin(self.x1, self.y1, self.w1, self.h1, self.w3, self.h3)
+
     def update(self):
         if self.target == None: 
             return
@@ -50,4 +52,9 @@ class InfiniteBackground:
         self.y4 = self.y3
         self.w4 = self.cw - self.w3 
         self.h4 = self.h3
+
+        self.x1 = 0 
+        self.y1 = 0 
+        self.w1 = self.w4 
+        self.h1 = self.h2
 
