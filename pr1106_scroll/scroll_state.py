@@ -2,7 +2,7 @@ from pico2d import *
 import game_framework
 from boy import Boy
 import game_world
-from bg import Background
+from bg import InfiniteBackground as Background
 
 # from enum import Enum
 
