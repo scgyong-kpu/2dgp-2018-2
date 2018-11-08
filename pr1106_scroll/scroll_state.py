@@ -2,7 +2,7 @@ from pico2d import *
 import game_framework
 from boy import Boy
 import game_world
-from bg import ParallexBackground as Background
+from tilebg import TiledBackground as Background
 
 # from enum import Enum
 
