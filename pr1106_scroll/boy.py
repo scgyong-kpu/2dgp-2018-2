@@ -34,7 +34,8 @@ class RunState:
         mag = 2 if elapsed > 2.0 else 1
         # print(mag, elapsed)
         boy.frame = (boy.frame + 1) % 8
-        boy.x = max(25, min(boy.x + mag * boy.dx, 775))
+        boy.x = max(25, min(boy.x + mag * boy.mag * boy.dx, 775))
+        boy.y = max(25, min(boy.y + mag * boy.mag * boy.dy, 575))
     @staticmethod
     def draw(boy):
         y = 0 if boy.dir == 0 else 100
@@ -68,13 +69,14 @@ class Boy:
         self.x = random.randint(0, 200)
         # self.y = random.randint(90, 550)
         self.y = 90
-        self.speed = random.uniform(3.0, 5.0)
+        self.speed = random.uniform(5.0, 8.0)
         self.frame = random.randint(0, 7)
         self.state = None
         self.set_state(IdleState)
         self.dir = 1
         self.dx = 0
         self.dy = 0
+        self.mag = 1
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
 
@@ -97,6 +99,18 @@ class Boy:
         elif (e.type, e.key) == (SDL_KEYUP, SDLK_LEFT):
             self.dx += self.speed
             if self.dx > 0: self.dir = 1
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_UP):
+            self.dy += self.speed
+        elif (e.type, e.key) == (SDL_KEYUP, SDLK_UP):
+            self.dy -= self.speed
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_DOWN):
+            self.dy -= self.speed
+        elif (e.type, e.key) == (SDL_KEYUP, SDLK_DOWN):
+            self.dy += self.speed
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
+            self.mag = 2.0
+        elif (e.type, e.key) == (SDL_KEYUP, SDLK_LSHIFT):
+            self.mag = 1.0
 
         self.set_state(IdleState if self.dx == 0 and self.dy == 0 else RunState)
     def set_state(self, state):
