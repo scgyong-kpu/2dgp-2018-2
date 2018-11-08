@@ -25,8 +25,13 @@ class InfiniteBackground:
         self.ch = get_canvas_height()
         self.width = self.image.w
         self.height = self.image.h
+        self.min_x, self.min_y = 0, 0
+        self.max_x, self.max_y = 20000, 2000,
         self.x, self.y = 0, 0
         self.target = None
+    def clamp(self, o):
+        o.x = clamp(self.min_x, o.x, self.max_x) 
+        o.y = clamp(self.min_y, o.y, self.max_y) 
     def draw(self):
         self.image.clip_draw_to_origin(self.x3, self.y3, self.w3, self.h3, 0, 0)
         self.image.clip_draw_to_origin(self.x2, self.y2, self.w2, self.h2, 0, self.h3)

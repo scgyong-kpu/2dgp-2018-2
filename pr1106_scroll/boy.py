@@ -35,8 +35,11 @@ class RunState:
         mag = 2 if elapsed > 2.0 else 1
         # print(mag, elapsed)
         boy.frame = (boy.frame + 1) % 8
-        boy.x = max(RunState.MARGIN, min(boy.x + mag * boy.mag * boy.dx, boy.bg.width - RunState.MARGIN))
-        boy.y = max(RunState.MARGIN, min(boy.y + mag * boy.mag * boy.dy, boy.bg.height - RunState.MARGIN))
+        boy.x = boy.x + mag * boy.mag * boy.dx
+        boy.y = boy.y + mag * boy.mag * boy.dy
+        if hasattr(boy.bg, 'clamp'):
+            boy.bg.clamp(boy)
+
     @staticmethod
     def draw(boy):
         src_y = 0 if boy.dir == 0 else 100
