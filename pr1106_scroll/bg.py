@@ -1,12 +1,27 @@
 from pico2d import *
 
-class ParallexBackground:
-    def __init__(self):
-        self.image = load_image('../res/b0.png')
+class ParallexLayer:
+    def __init__(self, imageName, speed):
+        self.image = load_image(imageName)
+        self.w, self.h = self.image.w, self.image.h
         self.cw = get_canvas_width()
         self.ch = get_canvas_height()
-        self.width = self.image.w
-        self.height = self.image.h
+        self.speed = speed
+
+    def draw(self):
+        self.image.clip_draw_to_origin(self.x1, 0, self.w1, self.h, 0, 0)
+        self.image.clip_draw_to_origin(self.x2, 0, self.w2, self.h, self.w1, 0)
+
+    def update(self, x):
+        self.x1 = int(x * self.speed) % self.image.w
+        self.w1 = self.image.w - self.x1
+
+        self.x2 = 0
+        self.w2 = self.cw - self.w1 
+
+class ParallexBackground:
+    def __init__(self):
+        self.layer = ParallexLayer('../res/b0.png', 1)
         self.min_x, self.min_y = 0, 100
         self.max_x, self.max_y = 20000, 100,
         self.x, self.y = 0, 0
@@ -15,23 +30,10 @@ class ParallexBackground:
         o.x = clamp(self.min_x, o.x, self.max_x) 
         o.y = clamp(self.min_y, o.y, self.max_y) 
     def draw(self):
-        self.image.clip_draw_to_origin(self.x3, self.y3, self.w3, self.h3, 0, 0)
-        self.image.clip_draw_to_origin(self.x4, self.y4, self.w4, self.h4, self.w3, 0)
-
+        self.layer.draw()
     def update(self):
-        if self.target == None: 
-            return
         self.x = int(self.target.x - 100)
-        # self.y = int(self.target.y - self.ch // 2)
-        self.x3 = self.x % self.width
-        self.y3 = self.y % self.height
-        self.w3 = self.width - self.x3
-        self.h3 = self.height - self.y3
-
-        self.x4 = 0
-        self.y4 = self.y3
-        self.w4 = self.cw - self.w3 
-        self.h4 = self.h3
+        self.layer.update(self.x)
 
 class Background:
     def __init__(self):
