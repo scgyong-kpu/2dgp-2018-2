@@ -14,6 +14,6 @@ class Background:
     def update(self):
         if self.target == None: 
             return
-        self.x = int(self.target.x - self.cw // 2)
-        self.y = int(self.target.y - self.ch // 2)
+        self.x = clamp(0, int(self.target.x - self.cw // 2), self.width - self.cw)
+        self.y = clamp(0, int(self.target.y - self.ch // 2), self.height - self.ch)
         print(self.x, self.y, self.cw, self.ch, 0, 0)
