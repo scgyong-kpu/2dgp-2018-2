@@ -2,19 +2,11 @@ from pico2d import *
 import game_framework
 from boy import Boy
 import game_world
+from bg import Background
 
 # from enum import Enum
 
 # BOYS_COUNT = 1000
-
-class Grass:
-    def __init__(self):
-        self.image = load_image('../res/grass.png')
-        print(self.image)
-    def draw(self):
-        self.image.draw(400, 30)
-    def update(self):
-        pass
 
 def handle_events():
     global boy
@@ -28,11 +20,11 @@ def handle_events():
             boy.handle_event(e)
 
 def enter():
-    global boy, grass
+    global boy
 
     boy = Boy()
-    grass = Grass()
-    game_world.add_object(grass, game_world.layer_bg)
+    bg = Background()
+    game_world.add_object(bg, game_world.layer_bg)
     game_world.add_object(boy, game_world.layer_player)
 
 def draw():
