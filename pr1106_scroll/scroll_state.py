@@ -26,6 +26,7 @@ def enter():
     bg = Background()
 
     boy.bg = bg
+    bg.target = boy
 
     game_world.add_object(bg, game_world.layer_bg)
     game_world.add_object(boy, game_world.layer_player)

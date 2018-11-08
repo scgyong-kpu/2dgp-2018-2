@@ -19,7 +19,7 @@ class IdleState:
     @staticmethod
     def draw(boy):
         y = 200 if boy.dir == 0 else 300
-        Boy.image.clip_draw(boy.frame * 100, y, 100, 100, boy.x, boy.y)
+        Boy.image.clip_draw(boy.frame * 100, y, 100, 100, *boy.pos())
 
 class RunState:
     MARGIN = 25
@@ -40,7 +40,7 @@ class RunState:
     @staticmethod
     def draw(boy):
         src_y = 0 if boy.dir == 0 else 100
-        Boy.image.clip_draw(boy.frame * 100, src_y, 100, 100, boy.x, boy.y)
+        Boy.image.clip_draw(boy.frame * 100, src_y, 100, 100, *boy.pos())
 
 class SleepState:
     @staticmethod
@@ -58,8 +58,9 @@ class SleepState:
             y, mx, angle = 300, -25, 3.141592/2
         else:
             y, mx, angle = 200, +25, -3.141592/2
+        x, y = boy.pos()
         Boy.image.clip_composite_draw(boy.frame * 100, y, 100, 100, 
-            angle, '', boy.x + mx, boy.y - 25, 100, 100)
+            angle, '', x + mx, y - 25, 100, 100)
 
 
 class Boy:
@@ -80,6 +81,9 @@ class Boy:
         self.mag = 1
         if Boy.image == None:
             Boy.image = load_image('../res/animation_sheet.png')
+
+    def pos(self):
+        return self.x - self.bg.x, self.y - self.bg.y
 
     def draw(self):
         self.state.draw(self)
