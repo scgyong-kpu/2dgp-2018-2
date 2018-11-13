@@ -1,11 +1,25 @@
 import os.path
 from pico2d import *
 
-FONT_NAME = "../res/zerovelo.ttf"
-FONT_SIZE = 50
-
+FONT_1, FONT_2 = range(2)
 buttons = []
 labels = []
+
+_FONT_FILES = [ \
+    "../res/zerovelo.ttf", \
+    "../res/origa_m_p.ttf" \
+]
+_fonts = {}
+
+def getFont(idx, size):
+    global _fonts
+    key = str(idx) + '_' + str(size)
+    if key in _fonts:
+        return _fonts[key]
+    file = _FONT_FILES[idx]
+    _fonts[key] = load_font(file, size)
+    print("Font created for:", file, size)
+    return _fonts[key]
 
 def loadIfExists(file):
     if os.path.isfile(file):
@@ -13,15 +27,13 @@ def loadIfExists(file):
     return None
 
 class Label:
-    font = None
-    def __init__(self, text, x, y):
-        if Label.font is None:
-            Label.font = load_font(FONT_NAME, FONT_SIZE)
+    def __init__(self, text, x, y, size = 20, fontIndex = 0):
         self.text = text
         self.x, self.y = x, y
         self.color = (0, 0, 0)
+        self.font = getFont(fontIndex, size)
     def draw(self):
-        Label.font.draw(self.x, self.y, self.text, self.color)
+        self.font.draw(self.x, self.y, self.text, self.color)
 
 class Button:
     def __init__(self, file, x, y):

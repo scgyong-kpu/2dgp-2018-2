@@ -6,7 +6,9 @@ def enter():
     for x in [200, 400, 600]:
         btn = ui.Button('check', x, 500)
         ui.buttons.append(btn)
-    label = ui.Label("Hello world", 100, 100)
+    label = ui.Label("Hello world", 100, 200, 50, ui.FONT_1)
+    ui.labels.append(label)
+    label = ui.Label("Quick brown fox scores 210,000", 100, 100, 20, ui.FONT_2)
     ui.labels.append(label)
 
 def draw():
