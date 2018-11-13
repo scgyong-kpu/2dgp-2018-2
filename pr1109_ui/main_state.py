@@ -6,8 +6,10 @@ def onClick(context):
     print("Button click:", context)
 
 def enter():
-    for x in [200, 400, 600]:
-        btn = ui.Button('check', x, 500, onClick, x)
+    xs = [200, 400, 600]
+    ids = ['hello', 32, { 'hello':'world', 'key':12.3}]
+    for i in range(len(xs)):
+        btn = ui.Button('check', xs[i], 500, onClick, ids[i])
         ui.buttons.append(btn)
     label = ui.Label("Hello world", 100, 200, 50, ui.FONT_1)
     ui.labels.append(label)
