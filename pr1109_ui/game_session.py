@@ -6,7 +6,7 @@ class GameSession:
     def __init__(self, callback = None, context = None):
         mqtt.connect(GameSession.onMsg, self)
         self.id = random.randint(1, 1000000000)
-        self.id = random.randint(1, 10)
+        # self.id = random.randint(1, 10)
         print("I am:", self.id)
         self.wants = False
         self.callback = callback
