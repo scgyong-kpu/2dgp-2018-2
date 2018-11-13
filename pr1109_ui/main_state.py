@@ -1,7 +1,9 @@
 from pico2d import *
 import game_framework
 import ui
+from game_session import GameSession
 
+wants = False
 score = 0
 def addScore(amount):
     global score
@@ -9,28 +11,50 @@ def addScore(amount):
     scoreLabel.text = "Score: %05d" % score
 
 def onClick(context):
+    global wants
     print("Button click:", context)
-    addScore(context['score'])
+    if 'connect' in context:
+        wants = not wants
+        sess.wantGame(wants)
+        networkLabel.text = "Want" if wants else "No thanks"
+        return
+
+    if 'score' in context:
+        addScore(context['score'])
+
+def onOpponentMsg(msg, context):
+    print("Mqtt:", msg)
+    networkLabel.text = msg
 
 def enter():
     global scoreLabel
+    global networkLabel
     xs = [200, 400, 600]
     ids = [{'score':100}, {'score':10},{'score':1}]
     for i in range(len(xs)):
         btn = ui.Button('check', xs[i], 500, onClick, ids[i])
         ui.buttons.append(btn)
+
+    btn = ui.Button('check', 700, 100, onClick, {'connect':True})
+    ui.buttons.append(btn)
+
     label = ui.Label("Hello world", 100, 200, 50, ui.FONT_1)
     ui.labels.append(label)
     label = ui.Label("Same font", 100, 250, 50, ui.FONT_1)
     label.color = (0, 127, 0)
     ui.labels.append(label)
+
     label = ui.Label("Quick brown fox scores 210,000", 100, 100, 20, ui.FONT_2)
     ui.labels.append(label)
+    networkLabel = label
 
     label = ui.Label("Other color", 100, 50, 50, ui.FONT_2)
     label.color = (127, 127, 255)
     ui.labels.append(label)
     scoreLabel = label
+
+    global sess
+    sess = GameSession(onOpponentMsg)
 
 def draw():
     clear_canvas()
@@ -52,7 +76,7 @@ def handle_events():
         ui.handle_event(e)
 
 def exit():
-    pass
+    sess.close()
 
 if __name__ == '__main__':
     import sys
