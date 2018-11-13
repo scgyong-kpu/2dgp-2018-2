@@ -2,12 +2,20 @@ from pico2d import *
 import game_framework
 import ui
 
+score = 0
+def addScore(amount):
+    global score
+    score += amount
+    scoreLabel.text = "Score: %05d" % score
+
 def onClick(context):
     print("Button click:", context)
+    addScore(context['score'])
 
 def enter():
+    global scoreLabel
     xs = [200, 400, 600]
-    ids = ['hello', 32, { 'hello':'world', 'key':12.3}]
+    ids = [{'score':100}, {'score':10},{'score':1}]
     for i in range(len(xs)):
         btn = ui.Button('check', xs[i], 500, onClick, ids[i])
         ui.buttons.append(btn)
@@ -18,9 +26,11 @@ def enter():
     ui.labels.append(label)
     label = ui.Label("Quick brown fox scores 210,000", 100, 100, 20, ui.FONT_2)
     ui.labels.append(label)
+
     label = ui.Label("Other color", 100, 50, 50, ui.FONT_2)
     label.color = (127, 127, 255)
     ui.labels.append(label)
+    scoreLabel = label
 
 def draw():
     clear_canvas()
