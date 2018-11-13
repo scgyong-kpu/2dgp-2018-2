@@ -2,9 +2,12 @@ from pico2d import *
 import game_framework
 import ui
 
+def onClick(context):
+    print("Button click:", context)
+
 def enter():
     for x in [200, 400, 600]:
-        btn = ui.Button('check', x, 500)
+        btn = ui.Button('check', x, 500, onClick, x)
         ui.buttons.append(btn)
     label = ui.Label("Hello world", 100, 200, 50, ui.FONT_1)
     ui.labels.append(label)

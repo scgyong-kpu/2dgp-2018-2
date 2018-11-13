@@ -37,7 +37,7 @@ class Label:
         self.font.draw(self.x, self.y, self.text, self.color)
 
 class Button:
-    def __init__(self, file, x, y):
+    def __init__(self, file, x, y, onClick = None, context = ''):
         self.image_n = loadIfExists(file + '.png')
         self.image_h = loadIfExists(file + '_h.png')
         self.image_p = loadIfExists(file + '_p.png')
@@ -45,6 +45,8 @@ class Button:
         self.image = self.image_n
         self.captures = False
         self.pressed = False
+        self.onClick = onClick
+        self.context = context
     def draw(self):
         self.image.draw(self.x, self.y)
     def hits(self, x, y):
@@ -84,6 +86,9 @@ class Button:
 
     def fire(self):
         print("Fire")
+        if self.onClick == None:
+            return
+        self.onClick(self.context)
 
 
 def update():
