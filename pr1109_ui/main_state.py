@@ -9,6 +9,17 @@ def addScore(amount):
     global score
     score += amount
     scoreLabel.text = "Score: %05d" % score
+    msg = {'amount':amount,'score':score}
+    sess.send(msg)
+
+def onOpponentMsg(msg, context):
+    print("Mqtt:", msg)
+    networkLabel.text = str(msg)
+    print(type(msg))
+    # opScoreLabel.text = str(score + 100000)
+    if 'score' in msg:
+        score = msg['score']
+        opScoreLabel.text = "Oppon: %05d" % score
 
 def onClick(context):
     global wants
@@ -22,13 +33,10 @@ def onClick(context):
     if 'score' in context:
         addScore(context['score'])
 
-def onOpponentMsg(msg, context):
-    print("Mqtt:", msg)
-    networkLabel.text = msg
-
 def enter():
     global scoreLabel
     global networkLabel
+    global opScoreLabel
     xs = [200, 400, 600]
     ids = [{'score':100}, {'score':10},{'score':1}]
     for i in range(len(xs)):
@@ -48,11 +56,15 @@ def enter():
     ui.labels.append(label)
     networkLabel = label
 
-    label = ui.Label("Other color", 100, 50, 50, ui.FONT_2)
+    label = ui.Label("Other color", 100, 400, 50, ui.FONT_2)
     label.color = (127, 127, 255)
     ui.labels.append(label)
     scoreLabel = label
 
+    label = ui.Label("Other color", 100, 350, 50, ui.FONT_2)
+    label.color = (255, 127, 127)
+    ui.labels.append(label)
+    opScoreLabel = label
     global sess
     sess = GameSession(onOpponentMsg)
 
