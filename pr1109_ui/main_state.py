@@ -6,6 +6,8 @@ def enter():
     for x in [200, 400, 600]:
         btn = ui.Button('check', x, 500)
         ui.buttons.append(btn)
+    label = ui.Label("Hello world", 100, 100)
+    ui.labels.append(label)
 
 def draw():
     clear_canvas()

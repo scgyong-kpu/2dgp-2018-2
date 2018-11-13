@@ -1,12 +1,27 @@
 import os.path
 from pico2d import *
 
+FONT_NAME = "../res/zerovelo.ttf"
+FONT_SIZE = 50
+
 buttons = []
+labels = []
 
 def loadIfExists(file):
     if os.path.isfile(file):
         return load_image(file)
     return None
+
+class Label:
+    font = None
+    def __init__(self, text, x, y):
+        if Label.font is None:
+            Label.font = load_font(FONT_NAME, FONT_SIZE)
+        self.text = text
+        self.x, self.y = x, y
+        self.color = (0, 0, 0)
+    def draw(self):
+        Label.font.draw(self.x, self.y, self.text, self.color)
 
 class Button:
     def __init__(self, file, x, y):
@@ -64,6 +79,8 @@ def update():
 def draw():
     for b in buttons:
         b.draw()
+    for l in labels:
+        l.draw()
 
 capture_button = None
 def handle_event(e):
