@@ -15,6 +15,7 @@ def getFont(idx, size):
     global _fonts
     key = str(idx) + '_' + str(size)
     if key in _fonts:
+        print("Reuse font:", key)
         return _fonts[key]
     file = _FONT_FILES[idx]
     _fonts[key] = load_font(file, size)

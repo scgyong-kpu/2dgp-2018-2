@@ -8,7 +8,13 @@ def enter():
         ui.buttons.append(btn)
     label = ui.Label("Hello world", 100, 200, 50, ui.FONT_1)
     ui.labels.append(label)
+    label = ui.Label("Same font", 100, 250, 50, ui.FONT_1)
+    label.color = (0, 127, 0)
+    ui.labels.append(label)
     label = ui.Label("Quick brown fox scores 210,000", 100, 100, 20, ui.FONT_2)
+    ui.labels.append(label)
+    label = ui.Label("Other color", 100, 50, 50, ui.FONT_2)
+    label.color = (127, 127, 255)
     ui.labels.append(label)
 
 def draw():
