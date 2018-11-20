@@ -6,18 +6,32 @@ import ui
 from player import Player
 from missile import Missile
 
+class Life:
+    red = None
+    white = None
+    LIFE_AT_START = 5
+    def __init__(self):
+        if Life.red == None:
+            Life.white = load_image('heart_white.png')
+            Life.red = load_image('heart_red.png')
+    def draw(self, life):
+        x, y = get_canvas_width() - 50, get_canvas_height() - 50
+        for i in range(Life.LIFE_AT_START):
+            heart = Life.red if i < life else Life.white
+            heart.draw(x, y)
+            x -= 50
+
 player = None
+life = None
 
 def enter():
-    global player, m1, m2
+    global player, life
     # label = ui.Label("Other color", 100, 350, 50, ui.FONT_2)
     # label.color = (255, 127, 127)
     # ui.labels.append(label)
     player = Player()
     game_world.add_object(player, game_world.layer_player)
-    # for i in range(10):
-    #     createMissle()
-    print(game_world.count_at_layer(game_world.layer_obstacle))
+    life = Life()
 
 def createMissle():
     m = Missile(*gen_random(), 60)
@@ -64,6 +78,10 @@ def draw():
     clear_canvas()
     game_world.draw()
     ui.draw()
+
+    global player
+    life.draw(player.life)
+
     update_canvas()
 
 def update():
