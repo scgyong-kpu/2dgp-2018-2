@@ -34,6 +34,8 @@ def enter():
     game_world.add_object(player, game_world.layer_player)
     life = Life()
 
+    bg.target = player
+
     label = ui.Label("Score: 0", 50, get_canvas_height() - 50, 50, ui.FONT_2)
     label.color = (255, 127, 127)
     ui.labels.append(label)
