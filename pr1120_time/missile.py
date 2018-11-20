@@ -9,7 +9,7 @@ class Missile:
 		self.x, self.y = x, y
 		self.dx, self.dy = dx, dy
 		self.size = size
-		self.fps = 8 + random.randint(0, 5)
+		self.fps = 8 + random.randint(0, 20)
 		self.frame = random.randint(0, 23)
 		self.time = 0
 		if (Missile.image == None):
