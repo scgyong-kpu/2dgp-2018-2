@@ -23,15 +23,18 @@ class Life:
 
 player = None
 life = None
+scoreLabel = None
 
 def enter():
-    global player, life
-    # label = ui.Label("Other color", 100, 350, 50, ui.FONT_2)
-    # label.color = (255, 127, 127)
-    # ui.labels.append(label)
+    global player, life, scoreLabel
     player = Player()
     game_world.add_object(player, game_world.layer_player)
     life = Life()
+
+    label = ui.Label("Score: 0", 50, get_canvas_height() - 50, 50, ui.FONT_2)
+    label.color = (255, 127, 127)
+    ui.labels.append(label)
+    scoreLabel = label
 
 def createMissle():
     m = Missile(*gen_random(), 60)
@@ -85,7 +88,7 @@ def draw():
     update_canvas()
 
 def update():
-    global player
+    global player, scoreLabel
     ui.update()
     game_world.update()
     for m in game_world.objects_at_layer(game_world.layer_obstacle):
@@ -95,6 +98,10 @@ def update():
             print("Player Life = ", player.life)
             game_world.remove_object(m)
             break
+
+    player.score += game_framework.frame_time
+    str = "Score: {:4.1f}".format(player.score)
+    scoreLabel.text = str
 
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)

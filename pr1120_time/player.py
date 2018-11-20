@@ -13,6 +13,7 @@ class Player:
 		self.speed = 1
 		self.size = 60
 		self.life = 5
+		self.score = 0
 		if (Player.image == None):
 			Player.image = load_image('player.png')
 	def draw(self):
