@@ -4,8 +4,9 @@ import time
 MQTT_TOPIC = '/kr/ac/kpu/2dgp/2018/scgyong'
 
 Connected = False
+broker_addr = 'broker.hivemq.com'
 # broker_addr = 'test.mosquitto.org'
-broker_addr = 'iot.eclipse.org'
+# broker_addr = 'iot.eclipse.org'
 
 _callback = None
 _context = None
@@ -17,6 +18,9 @@ def on_connect(client, userdata, flags, rc):
         Connected = True                #Signal connection 
     else:
         print("Connection failed")
+
+def on_disconnect(client):
+    print("Disconnected")
 
 def on_message(client, userdata, msg):
     text = msg.payload.decode('utf-8')
@@ -32,6 +36,7 @@ def connect(callback = None, context = None):
     client = mqttClient.Client('Python')
     client.on_connect = on_connect
     client.on_message = on_message
+    client.on_disconnect = on_disconnect
 
     client.connect(broker_addr)
     print("After calling connect()")
