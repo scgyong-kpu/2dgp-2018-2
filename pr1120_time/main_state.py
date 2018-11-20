@@ -23,6 +23,12 @@ def createMissle():
     m = Missile(*gen_random(), 60)
     game_world.add_object(m, game_world.layer_obstacle)
 
+def collides_distance(a, b):
+    dx, dy = a.x - b.x, a.y - b.y
+    sq_dist = dx ** 2 + dy ** 2
+    radius_sum = a.size / 2 + b.size / 2
+    return sq_dist < radius_sum ** 2
+
 score = 0
 
 def gen_random():
@@ -61,8 +67,15 @@ def draw():
     update_canvas()
 
 def update():
+    global player
     ui.update()
     game_world.update()
+    for m in game_world.objects_at_layer(game_world.layer_obstacle):
+        collides = collides_distance(player, m)
+        if (collides):
+            game_world.remove_object(m)
+            break
+
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     print(obstacle_count)
     if obstacle_count < 10:
