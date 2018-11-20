@@ -5,6 +5,7 @@ import game_world
 import ui
 from player import Player
 from missile import Missile
+from background import Background
 
 class Life:
     red = None
@@ -27,6 +28,8 @@ scoreLabel = None
 
 def enter():
     global player, life, scoreLabel
+    bg = Background()
+    game_world.add_object(bg, game_world.layer_bg)
     player = Player()
     game_world.add_object(player, game_world.layer_player)
     life = Life()
