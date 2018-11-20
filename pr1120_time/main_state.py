@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 import game_framework
 import game_world
 import ui
@@ -13,24 +14,23 @@ def enter():
     # label.color = (255, 127, 127)
     # ui.labels.append(label)
     player = Player()
-    m1 = Missile(100, 200, 0, 0, 60)
-    m2 = Missile(200, 200, 0, 0, 60)
-    print(player)
-
+    game_world.add_object(player, game_world.layer_player)
+    for i in range(10):
+        x = random.randint(100, 700)
+        y = random.randint(100, 500)
+        m = Missile(x, y, 0, 0, 60)
+        game_world.add_object(m, game_world.layer_obstacle)
+    print(game_world.count_at_layer(game_world.layer_obstacle))
 
 def draw():
     clear_canvas()
-    player.draw()
-    m1.draw()
-    m2.draw()
+    game_world.draw()
     ui.draw()
     update_canvas()
 
 def update():
     ui.update()
-    player.update()
-    m1.update()
-    m2.update()
+    game_world.update()
     delay(0.03)
 
 def handle_events():
@@ -45,9 +45,7 @@ def handle_events():
         ui.handle_event(e)
 
 def exit():
-    global player
-    del(player)
-    pass
+    game_world.clear()
 
 if __name__ == '__main__':
     import sys

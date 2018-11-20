@@ -23,6 +23,8 @@ def all_objects():
 def objects_at_layer(layer):
 	for o in objects[layer]:
 		yield o
+def count_at_layer(layer):
+	return len(objects[layer])
 def update():
 	for o in all_objects():
 		o.update()
