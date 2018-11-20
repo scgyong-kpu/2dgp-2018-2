@@ -1,6 +1,7 @@
 from pico2d import *
 import random
 import game_framework
+import game_world
 
 class Missile:
 	image = None
@@ -22,7 +23,12 @@ class Missile:
 		self.time += game_framework.frame_time
 		self.frame = round(self.time * self.fps) % 24
 		self.x += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dx
-		self.y += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dy		
+		self.y += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dy
+		if self.x < -self.size or  \
+		 self.y < -self.size or \
+		 self.x > get_canvas_width() + self.size or \
+		 self.y > get_canvas_height() + self.size:
+			game_world.remove_object(self)
 
 	def isInField(self, width, height):
 		if (self.x < 0): return False

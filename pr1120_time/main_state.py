@@ -16,11 +16,40 @@ def enter():
     player = Player()
     game_world.add_object(player, game_world.layer_player)
     for i in range(10):
-        x = random.randint(100, 700)
-        y = random.randint(100, 500)
-        m = Missile(x, y, 0, 0, 60)
+        m = Missile(*gen_random(), 60)
         game_world.add_object(m, game_world.layer_obstacle)
     print(game_world.count_at_layer(game_world.layer_obstacle))
+
+score = 0
+
+def gen_random():
+    global score
+    field_width = get_canvas_width()
+    field_height = get_canvas_height()
+    dx, dy = random.random(), random.random()
+    if (dx < 0.5): dx -= 1
+    if (dy < 0.5): dy -= 1
+
+    side = random.randint(1, 4) # 1=top, 2=left, 3=bottom, 4=right
+    if (side == 1): # top
+        x, y = random.randint(0, field_width), 0
+        if (dy < 0): dy = -dy
+
+    if (side == 2): # left
+        x, y = 0, random.randint(0, field_height)
+        if (dx < 0): dx = -dx
+
+    if (side == 3): # bottom
+        x, y = random.randint(0, field_width), field_height
+        if (dy > 0): dy = -dy
+
+    if (side == 4): # right
+        x, y = field_width, random.randint(0, field_height)
+        if (dx > 0): dx = -dx
+
+    speed = 1 + score / 60
+    dx, dy = dx * speed, dy * speed
+    return x, y, dx, dy
 
 def draw():
     clear_canvas()
@@ -32,6 +61,7 @@ def update():
     ui.update()
     game_world.update()
     delay(0.03)
+    print(game_world.count_at_layer(game_world.layer_obstacle))
 
 def handle_events():
     global player
