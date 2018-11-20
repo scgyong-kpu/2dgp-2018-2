@@ -9,13 +9,18 @@ class Missile:
 		self.x, self.y = x, y
 		self.dx, self.dy = dx, dy
 		self.size = size
+		self.fps = 8 + random.randint(0, 5)
+		self.frame = random.randint(0, 23)
+		self.time = 0
 		if (Missile.image == None):
-			Missile.image = load_image('missile.png')
+			Missile.image = load_image('fireball.png')
 
 	def draw(self):
-		self.image.draw(self.x, self.y, self.size, self.size)
+		self.image.clip_draw(128 * self.frame, 0, 128, 128, self.x, self.y, 2 * self.size, 2 * self.size)
 
 	def update(self):
+		self.time += game_framework.frame_time
+		self.frame = round(self.time * self.fps) % 24
 		self.x += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dx
 		self.y += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dy		
 
