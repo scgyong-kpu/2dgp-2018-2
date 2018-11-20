@@ -73,15 +73,17 @@ def update():
     for m in game_world.objects_at_layer(game_world.layer_obstacle):
         collides = collides_distance(player, m)
         if (collides):
+            player.life -= 1
+            print("Player Life = ", player.life)
             game_world.remove_object(m)
             break
 
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
-    print(obstacle_count)
+    # print(obstacle_count)
     if obstacle_count < 10:
         createMissle()
     delay(0.03)
-    print()
+    # print()
 
 def handle_events():
     global player
