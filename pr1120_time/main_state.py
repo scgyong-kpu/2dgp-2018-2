@@ -16,9 +16,12 @@ def enter():
     player = Player()
     game_world.add_object(player, game_world.layer_player)
     for i in range(10):
-        m = Missile(*gen_random(), 60)
-        game_world.add_object(m, game_world.layer_obstacle)
+        createMissle()
     print(game_world.count_at_layer(game_world.layer_obstacle))
+
+def createMissle():
+    m = Missile(*gen_random(), 60)
+    game_world.add_object(m, game_world.layer_obstacle)
 
 score = 0
 
@@ -60,8 +63,12 @@ def draw():
 def update():
     ui.update()
     game_world.update()
+    obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
+    print(obstacle_count)
+    if obstacle_count < 10:
+        createMissle()
     delay(0.03)
-    print(game_world.count_at_layer(game_world.layer_obstacle))
+    print()
 
 def handle_events():
     global player
