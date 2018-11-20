@@ -15,8 +15,8 @@ def enter():
     # ui.labels.append(label)
     player = Player()
     game_world.add_object(player, game_world.layer_player)
-    for i in range(10):
-        createMissle()
+    # for i in range(10):
+    #     createMissle()
     print(game_world.count_at_layer(game_world.layer_obstacle))
 
 def createMissle():
