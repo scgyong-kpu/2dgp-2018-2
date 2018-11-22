@@ -6,7 +6,7 @@ buttons = []
 labels = []
 
 _FONT_FILES = [ \
-    "../res/zerovelo.ttf", \
+    "../res/ConsolaMalgun.ttf", \
     "../res/origa_m_p.ttf" \
 ]
 _fonts = {}

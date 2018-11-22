@@ -1,5 +1,6 @@
 from pico2d import *
 import random
+import time
 import game_framework
 import game_world
 import ui
@@ -26,9 +27,44 @@ class Life:
             heart.draw(x, y)
             x -= 50
 
+class Highscore:
+    class Entry:
+        def __init__(self, score):
+            self.score = score
+            self.time = time.time()
+    MAX_SCORE_COUNT = 5
+    def __init__(self):
+        self.scores = []
+        self.font = ui.getFont(ui.FONT_1, 40)
+    def add(self, score):
+        inserted = False
+        for i in range(len(self.scores)):
+            e = self.scores[i]
+            if e.score < score.score:
+                self.scores.insert(i, score)
+                inserted = True
+                break
+        if (not inserted):
+            self.scores.append(score)
+
+        if (len(self.scores) > Highscore.MAX_SCORE_COUNT):
+            self.scores.pop(-1)
+    def draw(self):
+        no = 1
+        y = 160
+        for e in self.scores:
+            str = "{:2d} {:5.1f}".format(no, e.score)
+            self.font.draw(30, y, str, (255,255,255))
+            self.font.draw(220, y, time.asctime(time.localtime(e.time)), (223,255,223))
+            y -= 30
+            no += 1
+
+
+
 player = None
 life = None
 scoreLabel = None
+highscore = None
 gameOverImage = None
 gameState = GAMESTATE_READY
 
@@ -46,6 +82,9 @@ def enter():
     label.color = (255, 127, 127)
     ui.labels.append(label)
     scoreLabel = label
+
+    global highscore
+    highscore = Highscore()
 
     game_world.isPaused = isPaused
 
@@ -66,6 +105,11 @@ def ready_game():
     game_world.remove_objects_at_layer(game_world.layer_item)
     player.init(Life.LIFE_AT_START)
     scoreLabel.text = "Score:  0.0"
+
+def end_game():
+    global gameState, player, highscore
+    gameState = GAMESTETE_GAMEOVER
+    highscore.add(Highscore.Entry(player.score))
 
 def isPaused():
     global gameState
@@ -121,6 +165,7 @@ def draw():
     global gameState, gameOverImage
     if gameState == GAMESTETE_GAMEOVER:
         gameOverImage.draw(get_canvas_width() / 2, get_canvas_height() / 2)
+        highscore.draw()
 
     update_canvas()
 
@@ -142,7 +187,7 @@ def update():
                 if player.life > 0:
                     game_world.remove_object(m)
                 else:
-                    gameState = GAMESTETE_GAMEOVER
+                    end_game()
                 break
         for m in game_world.objects_at_layer(game_world.layer_item):
             collides = collides_distance(player, m)
