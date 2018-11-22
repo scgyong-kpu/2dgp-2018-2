@@ -38,7 +38,7 @@ def enter():
 
     bg.target = player
 
-    label = ui.Label("Score: 0", 50, get_canvas_height() - 50, 50, ui.FONT_2)
+    label = ui.Label("Score: 0", 35, get_canvas_height() - 55, 45, ui.FONT_2)
     label.color = (255, 127, 127)
     ui.labels.append(label)
     scoreLabel = label
@@ -134,6 +134,13 @@ def update():
     delay(0.03)
     # print()
 
+def toggle_paused():
+    global player, gameState
+    if gameState == GAMESTATE_INPLAY:
+        gameState = GAMESTATE_PAUSED
+    else:
+        gameState = GAMESTATE_INPLAY
+
 def handle_events():
     global player, gameState
     events = get_events()
@@ -143,16 +150,10 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            if gameState == GAMESTATE_INPLAY:
-                gameState = GAMESTATE_PAUSED
-            else:
-                gameState = GAMESTATE_INPLAY
+            toggle_paused()
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
-                if gameState == GAMESTATE_INPLAY:
-                    gameState = GAMESTATE_PAUSED
-                else:
-                    gameState = GAMESTATE_INPLAY
+                toggle_paused()
                 return
 
         handled = player.handle_event(e)
