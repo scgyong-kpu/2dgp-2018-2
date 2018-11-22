@@ -14,7 +14,7 @@ class Player:
 		self.angle = math.pi / 2
 		self.init()
 		if (Player.image == None):
-			Player.image = load_image('player.png')
+			Player.image = load_image('BattleCruiser.png')
 	def init(self, life = 5):
 		self.x, self.y = self.field_width / 2, self.field_height / 2
 		self.dx, self.dy = 0, 0
@@ -23,7 +23,7 @@ class Player:
 		self.score = 0
 
 	def draw(self):
-		self.image.composite_draw(self.angle - math.pi / 2, '', self.x, self.y)
+		self.image.clip_draw(0, 0, 128, 128, self.x, self.y)
 	def handle_event(self, event):
 		handled = False
 		if event.type == SDL_KEYDOWN:
