@@ -25,7 +25,7 @@ class Life:
 player = None
 life = None
 scoreLabel = None
-GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTETE_GAMEOVER = range(3)
+GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 gameState = GAMESTATE_READY
 
 def enter():
@@ -111,6 +111,10 @@ def update():
     global player, scoreLabel
     ui.update()
     game_world.update()
+    if gameState != GAMESTATE_INPLAY:
+        delay(0.03)
+        return
+
     for m in game_world.objects_at_layer(game_world.layer_obstacle):
         collides = collides_distance(player, m)
         if (collides):
@@ -138,10 +142,17 @@ def handle_events():
             game_framework.quit()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            if gameState == GAMESTATE_INPLAY:
+                gameState = GAMESTATE_PAUSED
+            else:
+                gameState = GAMESTATE_INPLAY
         handled = player.handle_event(e)
         if handled:
             if gameState == GAMESTATE_READY:
                 start_game()
+            elif gameState == GAMESTATE_PAUSED:
+                gameState = GAMESTATE_INPLAY
         ui.handle_event(e)
 
 def exit():
