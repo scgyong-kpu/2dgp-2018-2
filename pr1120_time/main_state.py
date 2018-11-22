@@ -73,7 +73,7 @@ def ready_game():
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
     game_world.remove_objects_at_layer(game_world.layer_item)
     player.init(Life.LIFE_AT_START)
-    scoreLabel.text = "Score:  0.0"
+    update_score()
 
 def end_game():
     global gameState, player, highscore
@@ -139,7 +139,7 @@ def draw():
     update_canvas()
 
 def update():
-    global player, scoreLabel, gameState
+    global player, gameState
     ui.update()
     game_world.update()
 
@@ -169,8 +169,7 @@ def update():
                 break
 
         player.score += game_framework.frame_time
-        str = "Score: {:4.1f}".format(player.score)
-        scoreLabel.text = str
+        update_score()
 
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)
@@ -180,12 +179,21 @@ def update():
     delay(0.03)
     # print()
 
+def update_score():
+    global player, scoreLabel
+    str = "Score: {:4.1f}".format(player.score)
+    scoreLabel.text = str
+
 def toggle_paused():
     global player, gameState
     if gameState == GAMESTETE_GAMEOVER:
         ready_game()
     elif gameState == GAMESTATE_INPLAY:
         gameState = GAMESTATE_PAUSED
+        player.score -= 2.0
+        if player.score < 0:
+            player.score = 0
+        update_score()
     else:
         gameState = GAMESTATE_INPLAY
 
