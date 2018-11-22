@@ -47,6 +47,9 @@ def enter():
     gameState = GAMESTATE_READY
     game_world.isPaused = isPaused
 
+def start_game():
+    gameState = GAMESTATE_INPLAY
+
 def isPaused():
     global gameState
     return gameState != GAMESTATE_INPLAY
@@ -133,7 +136,10 @@ def handle_events():
             game_framework.quit()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.pop_state()
-        player.handle_event(e)
+        handled = player.handle_event(e)
+        if handled:
+            if gameState == GAMESTATE_READY:
+                start_game()
         ui.handle_event(e)
 
 def exit():
