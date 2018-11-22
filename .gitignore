@@ -108,3 +108,4 @@ venv.bak/
 .idea/
 2dgp.sublime-project
 2dgp.sublime-workspace
+Highscore.pickle

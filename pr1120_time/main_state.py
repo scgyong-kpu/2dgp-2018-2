@@ -1,6 +1,7 @@
 from pico2d import *
 import random
 import time
+import pickle
 import game_framework
 import game_world
 import ui
@@ -33,10 +34,12 @@ class Highscore:
             self.score = score
             self.time = time.time()
     MAX_SCORE_COUNT = 5
+    FILENAME = "Highscore.pickle"
     def __init__(self):
         self.scores = []
         self.font = ui.getFont(ui.FONT_1, 40)
         self.lastIndex = 0
+        self.load()
     def add(self, score):
         inserted = False
         for i in range(len(self.scores)):
@@ -52,6 +55,21 @@ class Highscore:
 
         if (len(self.scores) > Highscore.MAX_SCORE_COUNT):
             self.scores.pop(-1)
+        if self.lastRank <= Highscore.MAX_SCORE_COUNT:
+            self.save()
+    def load(self):
+        try:
+            f = open(Highscore.FILENAME, "rb")
+            self.scores = pickle.load(f)
+            f.close()
+            print("Scores:", self.scores)
+        except FileNotFoundError:
+            print("No highscore file")
+
+    def save(self):
+        f = open(Highscore.FILENAME, "wb")
+        pickle.dump(self.scores, f)
+        f.close()
     def draw(self):
         no = 1
         y = 160
