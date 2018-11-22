@@ -6,7 +6,7 @@ import ui
 from player import Player
 from missile import Missile
 from background import Background
-from item import Item
+from item import *
 from highscore import Highscore
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
@@ -145,7 +145,10 @@ def update():
 
     if gameState == GAMESTATE_INPLAY:
         if random.random() < 0.01:
-            item = Item(*gen_random())
+            if (random.random() < 0.5):
+                item = Item(*gen_random())
+            else:
+                item = CoinItem(*gen_random())
             game_world.add_object(item, game_world.layer_item)
             print("Items:", game_world.count_at_layer(game_world.layer_item))
         for m in game_world.objects_at_layer(game_world.layer_obstacle):
