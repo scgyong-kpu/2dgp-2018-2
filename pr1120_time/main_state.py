@@ -25,6 +25,7 @@ class Life:
 player = None
 life = None
 scoreLabel = None
+gameOverImage = None
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 gameState = GAMESTATE_READY
 
@@ -43,17 +44,25 @@ def enter():
     ui.labels.append(label)
     scoreLabel = label
 
-    global gameState
-    gameState = GAMESTATE_READY
     game_world.isPaused = isPaused
+
+    ready_game()
+
+    global gameOverImage
+    gameOverImage = load_image('game_over.png')
 
 def start_game():
     global gameState
     gameState = GAMESTATE_INPLAY
+    print("Now state is inplay")
+
+def ready_game():
+    global gameState
+    gameState = GAMESTATE_READY
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
     player.score = 0
+    scoreLabel.text = "Score:  0.0"
     player.life = Life.LIFE_AT_START
-    print("Now state is inplay")
 
 def isPaused():
     global gameState
@@ -108,6 +117,10 @@ def draw():
     global player
     life.draw(player.life)
 
+    global gameState, gameOverImage
+    if gameState == GAMESTETE_GAMEOVER:
+        gameOverImage.draw(get_canvas_width() / 2, get_canvas_height() / 2)
+
     update_canvas()
 
 def update():
@@ -141,7 +154,7 @@ def update():
 def toggle_paused():
     global player, gameState
     if gameState == GAMESTETE_GAMEOVER:
-        start_game()
+        ready_game()
     elif gameState == GAMESTATE_INPLAY:
         gameState = GAMESTATE_PAUSED
     else:
