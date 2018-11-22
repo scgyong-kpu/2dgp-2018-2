@@ -36,6 +36,7 @@ class Highscore:
     def __init__(self):
         self.scores = []
         self.font = ui.getFont(ui.FONT_1, 40)
+        self.lastIndex = 0
     def add(self, score):
         inserted = False
         for i in range(len(self.scores)):
@@ -43,9 +44,11 @@ class Highscore:
             if e.score < score.score:
                 self.scores.insert(i, score)
                 inserted = True
+                self.lastRank = i + 1
                 break
         if (not inserted):
             self.scores.append(score)
+            self.lastRank = len(self.scores)
 
         if (len(self.scores) > Highscore.MAX_SCORE_COUNT):
             self.scores.pop(-1)
@@ -54,8 +57,9 @@ class Highscore:
         y = 160
         for e in self.scores:
             str = "{:2d} {:5.1f}".format(no, e.score)
-            self.font.draw(30, y, str, (255,255,255))
-            self.font.draw(220, y, time.asctime(time.localtime(e.time)), (223,255,223))
+            color = (255, 255, 128) if no == self.lastRank else (223, 255, 223)
+            self.font.draw(30, y, str, color)
+            self.font.draw(220, y, time.asctime(time.localtime(e.time)), color)
             y -= 30
             no += 1
 
