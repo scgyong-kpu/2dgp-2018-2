@@ -164,6 +164,8 @@ def update():
                 game_world.remove_object(m)
                 if player.life < Life.LIFE_AT_START:
                     player.life += 1
+                else:
+                    player.score += m.score
                 break
 
         player.score += game_framework.frame_time
