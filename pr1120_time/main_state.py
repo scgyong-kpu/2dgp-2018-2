@@ -48,7 +48,9 @@ def enter():
     game_world.isPaused = isPaused
 
 def start_game():
+    global gameState
     gameState = GAMESTATE_INPLAY
+    print("Now state is inplay")
 
 def isPaused():
     global gameState
@@ -129,7 +131,7 @@ def update():
     # print()
 
 def handle_events():
-    global player
+    global player, gameState
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:

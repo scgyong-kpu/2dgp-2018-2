@@ -48,8 +48,8 @@ class Player:
 
 		return handled
 
-	def update(self, frame_time):
-		distance = Player.RUN_SPEED_PPS * frame_time 
+	def update(self):
+		distance = Player.RUN_SPEED_PPS * game_framework.frame_time 
 		if self.mouse_control:
 			mx, my = self.mouse_x - self.x, self.mouse_y - self.y
 			angle = math.atan2(mx, my)
