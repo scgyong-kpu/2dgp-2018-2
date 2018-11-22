@@ -78,10 +78,8 @@ def collides_distance(a, b):
     radius_sum = a.size / 2 + b.size / 2
     return sq_dist < radius_sum ** 2
 
-score = 0
-
 def gen_random():
-    global score
+    global player
     field_width = get_canvas_width()
     field_height = get_canvas_height()
     dx, dy = random.random(), random.random()
@@ -105,7 +103,7 @@ def gen_random():
         x, y = field_width, random.randint(0, field_height)
         if (dx > 0): dx = -dx
 
-    speed = 1 + score / 60
+    speed = 1 + player.score / 60
     dx, dy = dx * speed, dy * speed
     return x, y, dx, dy
 
