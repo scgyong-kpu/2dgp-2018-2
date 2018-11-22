@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 import time
 
 class Player:
@@ -49,6 +50,8 @@ class Player:
 		return handled
 
 	def update(self):
+		if game_world.isPaused():
+			return
 		distance = Player.RUN_SPEED_PPS * game_framework.frame_time 
 		if self.mouse_control:
 			mx, my = self.mouse_x - self.x, self.mouse_y - self.y
