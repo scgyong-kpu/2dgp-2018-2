@@ -7,6 +7,9 @@ from player import Player
 from missile import Missile
 from background import Background
 
+GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
+BULLETS_AT_START = 10
+
 class Life:
     red = None
     white = None
@@ -26,7 +29,6 @@ player = None
 life = None
 scoreLabel = None
 gameOverImage = None
-GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 gameState = GAMESTATE_READY
 
 def enter():
@@ -144,7 +146,8 @@ def update():
 
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)
-    if obstacle_count < 10:
+    if obstacle_count < BULLETS_AT_START + player.score // 10:
+        print("Missiles:", (obstacle_count + 1))
         createMissle()
     delay(0.03)
     # print()
