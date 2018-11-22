@@ -12,6 +12,11 @@ def remove_object(o):
 			objects[i].remove(o)
 			del o
 			break
+def remove_objects_at_layer(layer):
+	for o in objects[layer]:
+		print('deleting', o)
+		del o
+	objects[layer] = []
 def clear():
 	for o in all_objects():
 		del o

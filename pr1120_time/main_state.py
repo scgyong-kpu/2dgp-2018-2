@@ -50,6 +50,9 @@ def enter():
 def start_game():
     global gameState
     gameState = GAMESTATE_INPLAY
+    game_world.remove_objects_at_layer(game_world.layer_obstacle)
+    player.score = 0
+    player.life = Life.LIFE_AT_START
     print("Now state is inplay")
 
 def isPaused():
@@ -111,24 +114,22 @@ def update():
     global player, scoreLabel, gameState
     ui.update()
     game_world.update()
-    if gameState != GAMESTATE_INPLAY:
-        delay(0.03)
-        return
 
-    for m in game_world.objects_at_layer(game_world.layer_obstacle):
-        collides = collides_distance(player, m)
-        if (collides):
-            player.life -= 1
-            print("Player Life = ", player.life)
-            if player.life > 0:
-                game_world.remove_object(m)
-            else:
-                gameState = GAMESTETE_GAMEOVER
-            break
+    if gameState == GAMESTATE_INPLAY:
+        for m in game_world.objects_at_layer(game_world.layer_obstacle):
+            collides = collides_distance(player, m)
+            if (collides):
+                player.life -= 1
+                print("Player Life = ", player.life)
+                if player.life > 0:
+                    game_world.remove_object(m)
+                else:
+                    gameState = GAMESTETE_GAMEOVER
+                break
 
-    player.score += game_framework.frame_time
-    str = "Score: {:4.1f}".format(player.score)
-    scoreLabel.text = str
+        player.score += game_framework.frame_time
+        str = "Score: {:4.1f}".format(player.score)
+        scoreLabel.text = str
 
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)
@@ -139,7 +140,9 @@ def update():
 
 def toggle_paused():
     global player, gameState
-    if gameState == GAMESTATE_INPLAY:
+    if gameState == GAMESTETE_GAMEOVER:
+        start_game()
+    elif gameState == GAMESTATE_INPLAY:
         gameState = GAMESTATE_PAUSED
     else:
         gameState = GAMESTATE_INPLAY
