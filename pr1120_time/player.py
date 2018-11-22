@@ -58,10 +58,10 @@ class Player:
 		distance = Player.RUN_SPEED_PPS * game_framework.frame_time 
 		if self.mouse_control:
 			mx, my = self.mouse_x - self.x, self.mouse_y - self.y
-			angle = math.atan2(mx, my)
+			angle = math.atan2(my, mx)
 			if mx != 0 or my != 0:
 				self.angle = int(angle / math.pi * 16) % 32
-			dx, dy = math.sin(angle), math.cos(angle)
+			dx, dy = math.cos(angle), math.sin(angle)
 			tx = self.x + (dx * distance)
 			ty = self.y + (dy * distance)
 			# print(round(self.x), round(self.y), round(mx, 2), round(my), round(tx), round(ty))
