@@ -11,7 +11,7 @@ class Player:
 		self.field_width, self.field_height = get_canvas_width(), get_canvas_height()
 		self.size = 60
 		self.mouse_control = False
-		self.angle = 0
+		self.angle = math.pi / 2
 		self.init()
 		if (Player.image == None):
 			Player.image = load_image('player.png')
@@ -23,7 +23,7 @@ class Player:
 		self.score = 0
 
 	def draw(self):
-		self.image.draw(self.x, self.y)
+		self.image.composite_draw(self.angle - math.pi / 2, '', self.x, self.y)
 	def handle_event(self, event):
 		handled = False
 		if event.type == SDL_KEYDOWN:
@@ -60,7 +60,7 @@ class Player:
 			mx, my = self.mouse_x - self.x, self.mouse_y - self.y
 			angle = math.atan2(my, mx)
 			if mx != 0 or my != 0:
-				self.angle = int(angle / math.pi * 16) % 32
+				self.angle = angle
 			dx, dy = math.cos(angle), math.sin(angle)
 			tx = self.x + (dx * distance)
 			ty = self.y + (dy * distance)
