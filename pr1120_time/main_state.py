@@ -108,7 +108,7 @@ def draw():
     update_canvas()
 
 def update():
-    global player, scoreLabel
+    global player, scoreLabel, gameState
     ui.update()
     game_world.update()
     if gameState != GAMESTATE_INPLAY:
@@ -120,7 +120,10 @@ def update():
         if (collides):
             player.life -= 1
             print("Player Life = ", player.life)
-            game_world.remove_object(m)
+            if player.life > 0:
+                game_world.remove_object(m)
+            else:
+                gameState = GAMESTETE_GAMEOVER
             break
 
     player.score += game_framework.frame_time
