@@ -147,6 +147,14 @@ def handle_events():
                 gameState = GAMESTATE_PAUSED
             else:
                 gameState = GAMESTATE_INPLAY
+        elif e.type == SDL_MOUSEBUTTONDOWN:
+            if player.mouse_control:
+                if gameState == GAMESTATE_INPLAY:
+                    gameState = GAMESTATE_PAUSED
+                else:
+                    gameState = GAMESTATE_INPLAY
+                return
+
         handled = player.handle_event(e)
         if handled:
             if gameState == GAMESTATE_READY:
