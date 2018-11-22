@@ -22,6 +22,8 @@ class Missile:
 	def update(self):
 		self.time += game_framework.frame_time
 		self.frame = round(self.time * self.fps) % 24
+		if game_world.isPaused():
+			return
 		self.x += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dx
 		self.y += Missile.RUN_SPEED_PPS * game_framework.frame_time * self.dy
 		if self.x < -self.size or  \

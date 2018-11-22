@@ -25,6 +25,8 @@ class Life:
 player = None
 life = None
 scoreLabel = None
+GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTETE_GAMEOVER = range(3)
+gameState = GAMESTATE_READY
 
 def enter():
     global player, life, scoreLabel
@@ -41,8 +43,16 @@ def enter():
     ui.labels.append(label)
     scoreLabel = label
 
+    global gameState
+    gameState = GAMESTATE_READY
+    game_world.isPaused = isPaused
+
+def isPaused():
+    global gameState
+    return gameState != GAMESTATE_INPLAY
+
 def createMissle():
-    m = Missile(*gen_random(), 60)
+    m = Missile(*gen_random(), random.randint(20, 60))
     game_world.add_object(m, game_world.layer_obstacle)
 
 def collides_distance(a, b):
