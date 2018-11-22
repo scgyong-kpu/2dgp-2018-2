@@ -9,16 +9,19 @@ class Player:
 	FIELD_MARGIN = 50
 	def __init__(self):
 		self.field_width, self.field_height = get_canvas_width(), get_canvas_height()
+		self.size = 60
+		self.mouse_control = False
+		self.angle = 0
+		self.init()
+		if (Player.image == None):
+			Player.image = load_image('player.png')
+	def init(self, life = 5):
 		self.x, self.y = self.field_width / 2, self.field_height / 2
 		self.dx, self.dy = 0, 0
 		self.speed = 1
-		self.size = 60
-		self.life = 5
+		self.life = life
 		self.score = 0
-		self.mouse_control = False
-		self.angle = 0
-		if (Player.image == None):
-			Player.image = load_image('player.png')
+
 	def draw(self):
 		self.image.draw(self.x, self.y)
 	def handle_event(self, event):

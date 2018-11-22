@@ -6,6 +6,7 @@ import ui
 from player import Player
 from missile import Missile
 from background import Background
+from item import Item
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 BULLETS_AT_START = 10
@@ -62,9 +63,9 @@ def ready_game():
     global gameState
     gameState = GAMESTATE_READY
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
-    player.score = 0
+    game_world.remove_objects_at_layer(game_world.layer_item)
+    player.init(Life.LIFE_AT_START)
     scoreLabel.text = "Score:  0.0"
-    player.life = Life.LIFE_AT_START
 
 def isPaused():
     global gameState
@@ -129,15 +130,26 @@ def update():
     game_world.update()
 
     if gameState == GAMESTATE_INPLAY:
+        if random.random() < 0.01:
+            item = Item(*gen_random())
+            game_world.add_object(item, game_world.layer_item)
+            print("Items:", game_world.count_at_layer(game_world.layer_item))
         for m in game_world.objects_at_layer(game_world.layer_obstacle):
             collides = collides_distance(player, m)
-            if (collides):
+            if collides:
                 player.life -= 1
                 print("Player Life = ", player.life)
                 if player.life > 0:
                     game_world.remove_object(m)
                 else:
                     gameState = GAMESTETE_GAMEOVER
+                break
+        for m in game_world.objects_at_layer(game_world.layer_item):
+            collides = collides_distance(player, m)
+            if collides:
+                game_world.remove_object(m)
+                if player.life < Life.LIFE_AT_START:
+                    player.life += 1
                 break
 
         player.score += game_framework.frame_time
@@ -147,7 +159,7 @@ def update():
     obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)
     if obstacle_count < BULLETS_AT_START + player.score // 10:
-        print("Missiles:", (obstacle_count + 1))
+        # print("Missiles:", (obstacle_count + 1))
         createMissle()
     delay(0.03)
     # print()
