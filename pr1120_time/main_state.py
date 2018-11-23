@@ -28,13 +28,14 @@ class Life:
             x -= 50
 
 
-
-
 player = None
 life = None
 scoreLabel = None
 highscore = None
 gameOverImage = None
+music_bg = None
+wav_bomb = None
+wav_item = None
 gameState = GAMESTATE_READY
 
 def enter():
@@ -55,6 +56,11 @@ def enter():
     global highscore
     highscore = Highscore()
 
+    global music_bg, wav_bomb, wav_item
+    music_bg = load_music('background.mp3')
+    wav_bomb = load_wav('explosion.wav')
+    wav_item = load_wav('item.wav')
+
     game_world.isPaused = isPaused
 
     ready_game()
@@ -65,7 +71,10 @@ def enter():
 def start_game():
     global gameState
     gameState = GAMESTATE_INPLAY
-    print("Now state is inplay")
+
+    global music_bg
+    music_bg.set_volume(64)
+    music_bg.repeat_play()
 
 def ready_game():
     global gameState
@@ -79,6 +88,9 @@ def end_game():
     global gameState, player, highscore
     gameState = GAMESTETE_GAMEOVER
     highscore.add(Highscore.Entry(player.score))
+
+    global music_bg
+    music_bg.stop()
 
 def isPaused():
     global gameState
@@ -139,7 +151,7 @@ def draw():
     update_canvas()
 
 def update():
-    global player, gameState
+    global player, gameState, wav_bomb, wav_item
     ui.update()
     game_world.update()
 
@@ -154,6 +166,7 @@ def update():
         for m in game_world.objects_at_layer(game_world.layer_obstacle):
             collides = collides_distance(player, m)
             if collides:
+                wav_bomb.play()
                 player.life -= 1
                 print("Player Life = ", player.life)
                 if player.life > 0:
@@ -164,6 +177,7 @@ def update():
         for m in game_world.objects_at_layer(game_world.layer_item):
             collides = collides_distance(player, m)
             if collides:
+                wav_item.play()
                 game_world.remove_object(m)
                 if player.life < Life.LIFE_AT_START:
                     player.life += 1
@@ -225,6 +239,14 @@ def handle_events():
 
 def exit():
     game_world.clear()
+    global music_bg, wav_bomb, wav_item
+    del(music_bg)
+    del(wav_bomb)
+    del(wav_item)
+
+    global life, highscore
+    del(life)
+    del(highscore)
 
 if __name__ == '__main__':
     import sys
