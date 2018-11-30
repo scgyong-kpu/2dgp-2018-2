@@ -4,6 +4,7 @@ import game_framework
 import game_world
 import ui
 from player import Player
+from ball import Ball
 from background import Background
 from highscore import Highscore
 
@@ -29,6 +30,7 @@ class Life:
 
 
 player = None
+ball = None
 life = None
 scoreLabel = None
 highscore = None
@@ -45,6 +47,10 @@ def enter():
     player = Player()
     game_world.add_object(player, game_world.layer_player)
     life = Life()
+
+    global ball
+    ball = Ball(400, 400, 1, 1)
+    game_world.add_object(ball, game_world.layer_player)
 
     bg.target = player
 
