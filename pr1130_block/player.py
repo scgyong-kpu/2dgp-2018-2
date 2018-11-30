@@ -13,8 +13,8 @@ class Player:
 		self.mouse_control = False
 		self.angle = math.pi / 2
 		self.init()
-		if (Player.image == None):
-			Player.image = load_image('BattleCruiser.png')
+		# if (Player.image == None):
+		# 	Player.image = load_image('BattleCruiser.png')
 	def init(self, life = 5):
 		self.x, self.y = self.field_width / 2, self.field_height / 2
 		self.dx, self.dy = 0, 0
@@ -23,8 +23,9 @@ class Player:
 		self.score = 0
 
 	def draw(self):
-		index = int(-(self.angle - math.pi / 2) * 16 / math.pi) % 32
-		self.image.clip_draw(128 * index, 0, 128, 128, self.x, self.y)
+		pass
+		# index = int(-(self.angle - math.pi / 2) * 16 / math.pi) % 32
+		# self.image.clip_draw(128 * index, 0, 128, 128, self.x, self.y)
 		# angle = self.angle - math.pi / 2
 		# self.image.clip_composite_draw(0, 0, 128, 128, angle, '', self.x, self.y, 128, 128)
 	def handle_event(self, event):

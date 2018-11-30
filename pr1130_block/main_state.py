@@ -4,9 +4,7 @@ import game_framework
 import game_world
 import ui
 from player import Player
-from missile import Missile
 from background import Background
-from item import *
 from highscore import Highscore
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
@@ -17,15 +15,17 @@ class Life:
     white = None
     LIFE_AT_START = 5
     def __init__(self):
-        if Life.red == None:
-            Life.white = load_image('heart_white.png')
-            Life.red = load_image('heart_red.png')
+        pass
+        # if Life.red == None:
+        #     Life.white = load_image('heart_white.png')
+        #     Life.red = load_image('heart_red.png')
     def draw(self, life):
-        x, y = get_canvas_width() - 50, get_canvas_height() - 50
-        for i in range(Life.LIFE_AT_START):
-            heart = Life.red if i < life else Life.white
-            heart.draw(x, y)
-            x -= 50
+        pass
+        # x, y = get_canvas_width() - 50, get_canvas_height() - 50
+        # for i in range(Life.LIFE_AT_START):
+        #     heart = Life.red if i < life else Life.white
+        #     heart.draw(x, y)
+        #     x -= 50
 
 
 player = None
@@ -57,24 +57,24 @@ def enter():
     highscore = Highscore()
 
     global music_bg, wav_bomb, wav_item
-    music_bg = load_music('background.mp3')
-    wav_bomb = load_wav('explosion.wav')
-    wav_item = load_wav('item.wav')
+    # music_bg = load_music('background.mp3')
+    # wav_bomb = load_wav('explosion.wav')
+    # wav_item = load_wav('item.wav')
 
     game_world.isPaused = isPaused
 
     ready_game()
 
     global gameOverImage
-    gameOverImage = load_image('game_over.png')
+    # gameOverImage = load_image('game_over.png')
 
 def start_game():
     global gameState
     gameState = GAMESTATE_INPLAY
 
     global music_bg
-    music_bg.set_volume(64)
-    music_bg.repeat_play()
+    # music_bg.set_volume(64)
+    # music_bg.repeat_play()
 
 def ready_game():
     global gameState
@@ -143,10 +143,10 @@ def draw():
     global player
     life.draw(player.life)
 
-    global gameState, gameOverImage
-    if gameState == GAMESTETE_GAMEOVER:
-        gameOverImage.draw(get_canvas_width() / 2, get_canvas_height() / 2)
-        highscore.draw()
+    # global gameState, gameOverImage
+    # if gameState == GAMESTETE_GAMEOVER:
+    #     gameOverImage.draw(get_canvas_width() / 2, get_canvas_height() / 2)
+    #     highscore.draw()
 
     update_canvas()
 
@@ -166,7 +166,7 @@ def update():
         for m in game_world.objects_at_layer(game_world.layer_obstacle):
             collides = collides_distance(player, m)
             if collides:
-                wav_bomb.play()
+                # wav_bomb.play()
                 player.life -= 1
                 print("Player Life = ", player.life)
                 if player.life > 0:
@@ -177,7 +177,7 @@ def update():
         for m in game_world.objects_at_layer(game_world.layer_item):
             collides = collides_distance(player, m)
             if collides:
-                wav_item.play()
+                # wav_item.play()
                 game_world.remove_object(m)
                 if player.life < Life.LIFE_AT_START:
                     player.life += 1
@@ -188,11 +188,11 @@ def update():
         player.score += game_framework.frame_time
         update_score()
 
-    obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
+    # obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
     # print(obstacle_count)
-    if obstacle_count < BULLETS_AT_START + player.score // 10:
-        # print("Missiles:", (obstacle_count + 1))
-        createMissle()
+    # if obstacle_count < BULLETS_AT_START + player.score // 10:
+    #     # print("Missiles:", (obstacle_count + 1))
+    #     createMissle()
     delay(0.03)
     # print()
 
@@ -240,9 +240,9 @@ def handle_events():
 def exit():
     game_world.clear()
     global music_bg, wav_bomb, wav_item
-    del(music_bg)
-    del(wav_bomb)
-    del(wav_item)
+    # del(music_bg)
+    # del(wav_bomb)
+    # del(wav_item)
 
     global life, highscore
     del(life)
