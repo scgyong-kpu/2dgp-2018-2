@@ -156,13 +156,13 @@ def update():
     game_world.update()
 
     if gameState == GAMESTATE_INPLAY:
-        if random.random() < 0.01:
-            if (random.random() < 0.5):
-                item = Item(*gen_random())
-            else:
-                item = CoinItem(*gen_random())
-            game_world.add_object(item, game_world.layer_item)
-            print("Items:", game_world.count_at_layer(game_world.layer_item))
+        # if random.random() < 0.01:
+        #     if (random.random() < 0.5):
+        #         item = Item(*gen_random())
+        #     else:
+        #         item = CoinItem(*gen_random())
+        #     game_world.add_object(item, game_world.layer_item)
+        #     print("Items:", game_world.count_at_layer(game_world.layer_item))
         for m in game_world.objects_at_layer(game_world.layer_obstacle):
             collides = collides_distance(player, m)
             if collides:
