@@ -27,7 +27,7 @@ class Brick:
             index = 8 + self.life
         elif self.type == 10:
             index = 12 + self.life
-        print(index, self.x, self.y)
+        # print(index, self.x, self.y)
         self.image.clip_draw(58 * index, 0, 58, 36, self.x, self.y)
     def didBounce(self, ball):
         l,b = self.x-29, self.y-18
