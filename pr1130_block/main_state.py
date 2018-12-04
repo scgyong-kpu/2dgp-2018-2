@@ -8,6 +8,7 @@ from ball import Ball
 from background import Background
 from highscore import Highscore
 from wall import Wall
+from brick import Brick
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 BULLETS_AT_START = 10
@@ -33,6 +34,7 @@ class Life:
 player = None
 ball = None
 wall = None
+# bricks
 life = None
 scoreLabel = None
 highscore = None
@@ -59,6 +61,13 @@ def enter():
     game_world.add_object(wall, game_world.layer_bg)
     bg.target = player
 
+    for i in range(10):
+        x = random.randint(100, 400)
+        y = random.randint(300, 500)
+        t = random.randint(1, 10)
+        brick = Brick(x, y, t)
+        game_world.add_object(brick, game_world.layer_obstacle)
+
     label = ui.Label("Score: 0", 35, get_canvas_height() - 55, 45, ui.FONT_2)
     label.color = (255, 127, 127)
     ui.labels.append(label)
@@ -74,7 +83,7 @@ def enter():
 
     game_world.isPaused = isPaused
 
-    ready_game()
+    # ready_game()
 
     global gameOverImage
     # gameOverImage = load_image('game_over.png')

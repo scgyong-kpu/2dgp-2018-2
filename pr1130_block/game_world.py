@@ -5,6 +5,7 @@ layer_obstacle = 2
 layer_item = 3
 
 def add_object(o, layer):
+	print(layer, o)
 	objects[layer].append(o)
 def remove_object(o):
 	for i in range(len(objects)):
