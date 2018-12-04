@@ -14,8 +14,8 @@ class Brick:
             self.life = 5
         else:
             self.life = 1
-        self.w = 10
-        self.h = 10
+        self.w = 44
+        self.h = 22
         self.score = 1
         if Brick.image == None:
             Brick.image = load_image('bricks.png')
@@ -28,15 +28,16 @@ class Brick:
         elif self.type == 10:
             index = 12 + self.life
         # print(index, self.x, self.y)
-        self.image.clip_draw(58 * index, 0, 58, 36, self.x, self.y)
+        self.image.clip_draw(58 * index, 0, 58, 36, self.x + 7, self.y - 7)
+        # draw_rectangle(*self.get_bb())
     def get_bb(self):
-        return self.x-29, self.y-4, self.x+15, self.y+18
+        return self.x-22, self.y-11, self.x+22, self.y+11
     def didBounce(self, ball):
         t = ball.intersection(self)
         if t == None:
             return False
         w, h = t
-        print(w, h)
+        # print("%.2f, %.2f" % (w, h), "b<%d,%d,%d,%d>" % self.get_bb(), "[%d,%d,%d,%d]" % ball.get_bb() )
         if w > h:
             ball.bounceVert()
         else:
