@@ -2,19 +2,12 @@ import json
 from pico2d import *
 
 class Wall:
-    LEFT = 50
-    BOTTOM = 50
-    TOP = 550
-    RIGHT = 450
-    image = None
-    coords = None
     def __init__(self):
-        if Wall.image == None:
-            Wall.image = load_image('wall.png')
-        if Wall.coords == None:
-            f = open('wall.json')
-            Wall.coords = json.load(f)
-            f.close()
+        f = open('wall.json')
+        d = json.load(f)
+        f.close()
+        self.__dict__.update(d)
+        self.image = load_image('wall.png')
     def update(self):
         pass
     def draw(self):
@@ -22,10 +15,10 @@ class Wall:
             self.image.clip_draw_to_origin(co[0], co[1], co[2], co[3], co[4], co[5], co[2], co[3])
     def didBounce(self, ball):
         ret = False
-        if (ball.x < Wall.LEFT or ball.x > Wall.RIGHT):
+        if (ball.x < self.left or ball.x > self.right):
             ball.angle = math.pi - ball.angle
             ret = True
-        if (ball.y < Wall.BOTTOM or ball.y > Wall.TOP):
+        if (ball.y < self.bottom or ball.y > self.top):
             ball.angle = -ball.angle
             ret = True
         if ret:

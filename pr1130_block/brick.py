@@ -29,16 +29,10 @@ class Brick:
             index = 12 + self.life
         # print(index, self.x, self.y)
         self.image.clip_draw(58 * index, 0, 58, 36, self.x, self.y)
+    def get_bb(self):
+        return self.x-29, self.y-4, self.x+15, self.y+18
     def didBounce(self, ball):
-        l,b = self.x-29, self.y-4
-        r,t = self.x+15, self.y+18
-        if ball.x + ball.size/2 < l:
-            return False
-        if ball.x - ball.size/2 > r:
-            return False
-        if ball.y + ball.size/2 < b:
-            return False
-        if ball.y - ball.size/2 > t:
+        if ball.intersection(self) == None:
             return False
         ball.angle = 2 * math.pi -ball.angle
         self.life -= 1

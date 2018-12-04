@@ -8,6 +8,7 @@ class Ball(GameObject):
         self.x, self.y = x, y
         self.dx, self.dy = dx, dy
         self.size = 22
+        self.w, self.h = 22, 22
         self.angle = 1.0
         self.speed = 3.0
         self.image = self.init_image(Ball, 'ball.png', 3, 4)

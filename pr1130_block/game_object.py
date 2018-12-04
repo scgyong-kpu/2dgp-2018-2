@@ -37,4 +37,17 @@ class GameObject:
         if h == 0: h = self.size
 
         self.image.clip_draw(self.frame * self._width, 0, self._width, self._height, self.x, self.y, w, h)
+    def get_bb(self):
+        return self.x - self.w/2, self.y - self.h/2, self.x + self.w/2, self.y + self.h/2
+    def intersection(self, other):
+        s_l, s_b, s_r, s_t = self.get_bb()
+        o_l, o_b, o_r, o_t = other.get_bb()
+        if o_r < s_l: return None
+        if o_l > s_r: return None
+        if o_t < s_b: return None
+        if o_b > s_t: return None
+        l, b, r, t = max(o_l, s_l), max(o_b, s_b), max(o_r, s_r), max(o_t, s_t)
+        return r-l, t-b
+
+
 
