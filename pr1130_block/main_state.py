@@ -180,44 +180,10 @@ def update():
     wall.didBounce(ball)
     player.didBounce(ball)
 
-    if gameState == GAMESTATE_INPLAY:
-        # if random.random() < 0.01:
-        #     if (random.random() < 0.5):
-        #         item = Item(*gen_random())
-        #     else:
-        #         item = CoinItem(*gen_random())
-        #     game_world.add_object(item, game_world.layer_item)
-        #     print("Items:", game_world.count_at_layer(game_world.layer_item))
-        for m in game_world.objects_at_layer(game_world.layer_obstacle):
-            collides = collides_distance(player, m)
-            if collides:
-                # wav_bomb.play()
-                player.life -= 1
-                print("Player Life = ", player.life)
-                if player.life > 0:
-                    game_world.remove_object(m)
-                else:
-                    end_game()
-                break
-        for m in game_world.objects_at_layer(game_world.layer_item):
-            collides = collides_distance(player, m)
-            if collides:
-                # wav_item.play()
-                game_world.remove_object(m)
-                if player.life < Life.LIFE_AT_START:
-                    player.life += 1
-                else:
-                    player.score += m.score
-                break
+    for b in game_world.objects_at_layer(game_world.layer_obstacle):
+        if b.didBounce(ball):
+            player.score += b.score
 
-        player.score += game_framework.frame_time
-        update_score()
-
-    # obstacle_count = game_world.count_at_layer(game_world.layer_obstacle)
-    # print(obstacle_count)
-    # if obstacle_count < BULLETS_AT_START + player.score // 10:
-    #     # print("Missiles:", (obstacle_count + 1))
-    #     createMissle()
     delay(0.03)
     # print()
 
