@@ -22,3 +22,37 @@ class Ball(GameObject):
     def draw(self):
         # print(self.frame, self._count)
         self.draw_frame()
+    def bounceLeft(self):
+        q = self.angle // (math.pi / 2)
+        ret = False
+        if q == 0:
+            self.angle = math.pi - self.angle
+            ret = True
+        if q == 3:
+            self.angle = 3 * math.pi - self.angle
+            ret = True
+        return ret
+    def bounceRight(self):
+        q = self.angle // (math.pi / 2)
+        ret = False
+        if q == 1:
+            self.angle = math.pi - self.angle
+            ret = True
+        if q == 2:
+            self.angle = 3 * math.pi - self.angle
+            ret = True
+        return ret
+    def bounceUp(self):
+        q = self.angle // (math.pi / 2)
+        ret = False
+        if q == 2 or q == 3:
+            self.angle = 2 * math.pi - self.angle
+            ret = True
+        return ret
+    def bounceDown(self):
+        q = self.angle // (math.pi / 2)
+        ret = False
+        if q == 0 or q == 1:
+            self.angle = 2 * math.pi - self.angle
+            ret = True
+        return ret
