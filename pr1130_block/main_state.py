@@ -7,6 +7,7 @@ from player import Player
 from ball import Ball
 from background import Background
 from highscore import Highscore
+from wall import Wall
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 BULLETS_AT_START = 10
@@ -31,6 +32,7 @@ class Life:
 
 player = None
 ball = None
+wall = None
 life = None
 scoreLabel = None
 highscore = None
@@ -52,6 +54,9 @@ def enter():
     ball = Ball(400, 400, 1, 1)
     game_world.add_object(ball, game_world.layer_player)
 
+    global wall
+    wall = Wall()
+    game_world.add_object(wall, game_world.layer_bg)
     bg.target = player
 
     label = ui.Label("Score: 0", 35, get_canvas_height() - 55, 45, ui.FONT_2)
@@ -160,6 +165,8 @@ def update():
     global player, gameState, wav_bomb, wav_item
     ui.update()
     game_world.update()
+    global wall, ball
+    wall.didBounce(ball)
 
     if gameState == GAMESTATE_INPLAY:
         # if random.random() < 0.01:
