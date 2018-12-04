@@ -3,6 +3,7 @@ import random
 import game_framework
 import game_world
 import ui
+import json
 from player import Player
 from ball import Ball
 from background import Background
@@ -61,11 +62,12 @@ def enter():
     game_world.add_object(wall, game_world.layer_bg)
     bg.target = player
 
-    for i in range(10):
-        x = random.randint(100, 400)
-        y = random.randint(300, 500)
-        t = random.randint(1, 10)
-        brick = Brick(x, y, t)
+    f = open('stage_1.json', 'r')
+    data = json.load(f)
+    f.close()
+
+    for d in data:
+        brick = Brick(d["x"], d["y"], d["t"])
         game_world.add_object(brick, game_world.layer_obstacle)
 
     label = ui.Label("Score: 0", 35, get_canvas_height() - 55, 45, ui.FONT_2)
