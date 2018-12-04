@@ -206,7 +206,7 @@ def toggle_paused():
         gameState = GAMESTATE_INPLAY
 
 def handle_events():
-    global player, gameState
+    global player, gameState, ball
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -215,6 +215,10 @@ def handle_events():
             game_framework.pop_state()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
             toggle_paused()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_q):
+            ball.speed *= 2
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_e):
+            ball.speed /= 2
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
                 toggle_paused()
