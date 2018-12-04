@@ -46,7 +46,7 @@ class GameObject:
         if o_l > s_r: return None
         if o_t < s_b: return None
         if o_b > s_t: return None
-        l, b, r, t = max(o_l, s_l), max(o_b, s_b), max(o_r, s_r), max(o_t, s_t)
+        l, b, r, t = max(o_l, s_l), max(o_b, s_b), min(o_r, s_r), min(o_t, s_t)
         return r-l, t-b
 
 

@@ -36,6 +36,7 @@ class Brick:
         if t == None:
             return False
         w, h = t
+        print(w, h)
         if w > h:
             ball.bounceVert()
         else:
