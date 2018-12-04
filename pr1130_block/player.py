@@ -26,7 +26,7 @@ class Player:
 
 	def didBounce(self, ball):
 		w = 100
-		h = 24
+		h = 22
 		if ball.x + ball.size/2 < self.x - w/2:
 			return False
 		if ball.x - ball.size/2 > self.x + w/2:
