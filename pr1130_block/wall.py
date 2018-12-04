@@ -22,6 +22,9 @@ class Wall:
     def draw(self):
         for co in self.coords:
             self.image.clip_draw_to_origin(co[0], co[1], co[2], co[3], co[4], co[5], co[2], co[3])
+    def drawRight(self):
+        for co in self.coordsRight:
+            self.image.clip_draw_to_origin(co[0], co[1], co[2], co[3], co[4], co[5], co[2], co[3])
     def didBounce(self, ball):
         ret = False
         if ball.intersection(self.left) != None:

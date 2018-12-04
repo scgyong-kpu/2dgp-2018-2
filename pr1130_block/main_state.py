@@ -165,6 +165,9 @@ def draw():
     global player
     life.draw(player.life)
 
+    global wall
+    wall.drawRight()
+
     # global gameState, gameOverImage
     # if gameState == GAMESTETE_GAMEOVER:
     #     gameOverImage.draw(get_canvas_width() / 2, get_canvas_height() / 2)
