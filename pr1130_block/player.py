@@ -24,6 +24,19 @@ class Player:
 		self.speed = 1
 		self.score = 0
 
+	def didBounce(self, ball):
+		w = 100
+		h = 24
+		if ball.x + ball.size/2 < self.x - w/2:
+			return False
+		if ball.x - ball.size/2 > self.x + w/2:
+			return False
+		if ball.y + ball.size/2 < self.y - h/2:
+			return False
+		if ball.y - ball.size/2 > self.y + h/2:
+			return False
+		ball.angle = 2 * math.pi -ball.angle
+		return True
 	def draw(self):
 		# index = int(-(self.angle - math.pi / 2) * 16 / math.pi) % 32
 		# self.image.clip_draw(128 * index, 0, 128, 128, self.x, self.y)

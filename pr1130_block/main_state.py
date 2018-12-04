@@ -167,6 +167,7 @@ def update():
     game_world.update()
     global wall, ball
     wall.didBounce(ball)
+    player.didBounce(ball)
 
     if gameState == GAMESTATE_INPLAY:
         # if random.random() < 0.01:
