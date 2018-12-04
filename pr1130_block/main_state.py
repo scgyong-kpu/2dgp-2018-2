@@ -186,6 +186,7 @@ def update():
     for b in game_world.objects_at_layer(game_world.layer_obstacle):
         if b.didBounce(ball):
             player.score += b.score
+            break
 
     delay(0.02)
     # print()
