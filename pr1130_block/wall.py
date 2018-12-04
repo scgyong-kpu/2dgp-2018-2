@@ -19,7 +19,6 @@ class Wall:
         pass
     def draw(self):
         for co in self.coords:
-            print(co)
             self.image.clip_draw_to_origin(co[0], co[1], co[2], co[3], co[4], co[5], co[2], co[3])
     def didBounce(self, ball):
         ret = False
