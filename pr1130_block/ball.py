@@ -46,13 +46,19 @@ class Ball(GameObject):
         q = self.angle // (math.pi / 2)
         ret = False
         if q == 2 or q == 3:
-            self.angle = 2 * math.pi - self.angle
+            self.bounceVert()
             ret = True
         return ret
     def bounceDown(self):
         q = self.angle // (math.pi / 2)
         ret = False
         if q == 0 or q == 1:
-            self.angle = 2 * math.pi - self.angle
+            self.bounceVert()
             ret = True
         return ret
+    def bounceVert(self):
+        self.angle = 2 * math.pi - self.angle
+    def bounceHorz(self):
+        c = self.angle // (math.pi)
+        m = 1 if c == 0 else 3
+        self.angle = m * math.pi - self.angle

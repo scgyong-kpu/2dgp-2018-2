@@ -32,9 +32,14 @@ class Brick:
     def get_bb(self):
         return self.x-29, self.y-4, self.x+15, self.y+18
     def didBounce(self, ball):
-        if ball.intersection(self) == None:
+        t = ball.intersection(self)
+        if t == None:
             return False
-        ball.angle = 2 * math.pi -ball.angle
+        w, h = t
+        if w > h:
+            ball.bounceVert()
+        else:
+            ball.bounceHorz()
         self.life -= 1
         if self.life == 0:
             gw.remove_object(self)
