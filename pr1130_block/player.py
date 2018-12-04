@@ -15,6 +15,8 @@ class Player:
 		self.angle = math.pi / 2
 		self.init()
 		self.life = 0
+		self.w = 100
+		self.h = 22
 		if (Player.image == None):
 			Player.image = load_image('paddle.png')
 	def init(self, life = 5):
@@ -24,18 +26,20 @@ class Player:
 		self.speed = 1
 		self.score = 0
 
+	def get_bb(self):
+		return self.x - self.w/2, self.y - self.h/2, self.x + self.w/2, self.y + self.h/2
+
 	def didBounce(self, ball):
-		w = 100
-		h = 22
-		if ball.x + ball.size/2 < self.x - w/2:
+		if not ball.intersection(self):
 			return False
-		if ball.x - ball.size/2 > self.x + w/2:
-			return False
-		if ball.y + ball.size/2 < self.y - h/2:
-			return False
-		if ball.y - ball.size/2 > self.y + h/2:
-			return False
-		ball.angle = 2 * math.pi -ball.angle
+		hw = self.w / 2
+		hh = self.h / 2
+		if self.x - hw + hh <= ball.x and ball.x <= self.x + hw - hh:
+			print('Normal bounce', self.x, ball.x)
+			ball.bounceVert()
+			return True
+		ox = self.x - hw + hh if ball.x < self.x else self.x + hw - hh
+		ball.angle = math.atan2(ball.y - self.y, ball.x - ox)
 		return True
 	def draw(self):
 		# index = int(-(self.angle - math.pi / 2) * 16 / math.pi) % 32

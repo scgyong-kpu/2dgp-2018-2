@@ -188,7 +188,7 @@ def update():
             player.score += b.score
             break
 
-    delay(0.02)
+    delay(0.01)
     # print()
 
 def update_score():
