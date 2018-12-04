@@ -184,7 +184,7 @@ def update():
         if b.didBounce(ball):
             player.score += b.score
 
-    delay(0.03)
+    delay(0.02)
     # print()
 
 def update_score():
