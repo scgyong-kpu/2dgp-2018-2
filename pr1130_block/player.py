@@ -36,7 +36,7 @@ class Player:
 		hh = self.h / 2
 		if self.x - hw + hh <= ball.x and ball.x <= self.x + hw - hh:
 			print('Normal bounce', self.x, ball.x)
-			ball.bounceVert()
+			ball.bounceUp()
 			return True
 		ox = self.x - hw + hh if ball.x < self.x else self.x + hw - hh
 		ball.angle = math.atan2(ball.y - self.y, ball.x - ox)

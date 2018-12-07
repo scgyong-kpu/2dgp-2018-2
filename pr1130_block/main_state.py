@@ -76,11 +76,17 @@ def enter():
     ch = get_canvas_height()
 
     label = ui.Label("Score:", cw - 200, get_canvas_height() - 55, 36, ui.FONT_2)
-    label.color = (255, 191, 127)
+    if 'label_s1' in data:
+        label.color = tuple(data['label_s1'])
+    else:
+        label.color = (255, 191, 127)
     ui.labels.append(label)
 
     label = ui.Label("0", cw - 200, get_canvas_height() - 100, 36, ui.FONT_2)
-    label.color = (255, 191, 127)
+    if 'label_s2' in data:
+        label.color = tuple(data['label_s2'])
+    else:
+        label.color = (255, 191, 127)
     ui.labels.append(label)
     scoreLabel = label
 

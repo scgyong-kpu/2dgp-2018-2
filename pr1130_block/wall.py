@@ -49,6 +49,6 @@ class Wall:
             ret = ball.bounceLeft()
         if ball.intersection(self.top) != None:
             ret = ball.bounceDown()
-        if ball.y < 20:
+        if ball.y < 0:
             ret = ball.bounceUp()
         return ret
