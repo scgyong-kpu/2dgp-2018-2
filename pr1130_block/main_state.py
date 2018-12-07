@@ -201,6 +201,11 @@ def draw():
 
 def update():
     global player, gameState, wav_bomb, wav_item
+
+    if gameState != GAMESTATE_INPLAY:
+        delay(0.01)
+        return
+
     ui.update()
     game_world.update()
     global wall, ball
