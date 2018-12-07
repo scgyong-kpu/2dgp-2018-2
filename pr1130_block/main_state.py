@@ -67,6 +67,7 @@ def enter():
     data = json.load(f)
     f.close()
 
+    global stage
     stage = data
 
     wall.bg_index = data['bg_pattern']
@@ -207,11 +208,12 @@ def update():
         if b.didBounce(ball):
             if stage != None and 'scores' in stage:
                 score = stage['scores'][b.type]
-                print(b.type, score)
+                # print(b.type, score)
             else:
                 score = b.score
-            player.score += score
-            update_score()
+            if b.life == 0:
+                player.score += score
+                update_score()
             break
 
     delay(0.01)
@@ -219,7 +221,7 @@ def update():
 
 def update_score():
     global player, scoreLabel
-    str = "{:4.1f}".format(player.score)
+    str = "{:5.0f}".format(player.score)
     scoreLabel.text = str
 
 def toggle_paused():
