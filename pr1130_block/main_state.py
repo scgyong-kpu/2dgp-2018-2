@@ -65,8 +65,10 @@ def enter():
     f = open('stage_1.json', 'r')
     data = json.load(f)
     f.close()
+    wall.bg_index = data['bg_pattern']
+    bricks = data['bricks']
 
-    for d in data:
+    for d in bricks:
         brick = Brick(d["x"], d["y"], d["t"])
         game_world.add_object(brick, game_world.layer_obstacle)
 

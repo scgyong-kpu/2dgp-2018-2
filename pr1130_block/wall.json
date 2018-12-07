@@ -3,6 +3,7 @@
   "right_l": [556, 0, 600, 600],
   "top_l": [0, 580, 600, 600],
   "image_name": "wall.png",
+  "bg_pattern_name":"bg_pattern.png",
   "coords": [
     [0,  54,  42, 54,   2, 544],
     [0, 108, 232, 32,  30, 566],
