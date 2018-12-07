@@ -44,6 +44,7 @@ music_bg = None
 wav_bomb = None
 wav_item = None
 gameState = GAMESTATE_READY
+stage = None
 
 def enter():
     global player, life, scoreLabel
@@ -65,6 +66,9 @@ def enter():
     f = open('stage_1.json', 'r')
     data = json.load(f)
     f.close()
+
+    stage = data
+
     wall.bg_index = data['bg_pattern']
     bricks = data['bricks']
 
@@ -198,9 +202,16 @@ def update():
     wall.didBounce(ball)
     player.didBounce(ball)
 
+    global stage
     for b in game_world.objects_at_layer(game_world.layer_obstacle):
         if b.didBounce(ball):
-            player.score += b.score
+            if stage != None and 'scores' in stage:
+                score = stage['scores'][b.type]
+                print(b.type, score)
+            else:
+                score = b.score
+            player.score += score
+            update_score()
             break
 
     delay(0.01)

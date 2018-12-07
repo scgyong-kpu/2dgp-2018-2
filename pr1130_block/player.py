@@ -39,7 +39,7 @@ class Player:
 			ball.bounceUp()
 			return True
 		ox = self.x - hw + hh if ball.x < self.x else self.x + hw - hh
-		ball.angle = math.atan2(ball.y - self.y, ball.x - ox)
+		ball.angle = math.atan2(ball.y - self.y, ball.x - ox) % (2 * math.pi)
 		return True
 	def draw(self):
 		# index = int(-(self.angle - math.pi / 2) * 16 / math.pi) % 32
