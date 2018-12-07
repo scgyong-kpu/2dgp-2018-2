@@ -13,7 +13,7 @@ class Wall:
         d = json.load(f)
         f.close()
         self.__dict__.update(d)
-        print(self.__dict__)
+        # print(self.__dict__)
         self.left = WallRect(self.left_l)
         self.right = WallRect(self.right_l)
         self.top = WallRect(self.top_l)
