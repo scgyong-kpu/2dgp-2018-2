@@ -72,8 +72,15 @@ def enter():
         brick = Brick(d["x"], d["y"], d["t"])
         game_world.add_object(brick, game_world.layer_obstacle)
 
-    label = ui.Label("Score: 0", 35, get_canvas_height() - 55, 45, ui.FONT_2)
-    label.color = (255, 127, 127)
+    cw = get_canvas_width()
+    ch = get_canvas_height()
+
+    label = ui.Label("Score:", cw - 200, get_canvas_height() - 55, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+
+    label = ui.Label("0", cw - 200, get_canvas_height() - 100, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
     ui.labels.append(label)
     scoreLabel = label
 
@@ -195,7 +202,7 @@ def update():
 
 def update_score():
     global player, scoreLabel
-    str = "Score: {:4.1f}".format(player.score)
+    str = "{:4.1f}".format(player.score)
     scoreLabel.text = str
 
 def toggle_paused():
