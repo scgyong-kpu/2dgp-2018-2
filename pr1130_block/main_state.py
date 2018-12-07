@@ -102,6 +102,11 @@ def start_game():
     # music_bg.set_volume(64)
     # music_bg.repeat_play()
 
+def goto_next_stage():
+    global stage_number
+    stage_number += 1
+    ready_game()
+
 def ready_game():
     global gameState
     gameState = GAMESTATE_READY
@@ -118,6 +123,8 @@ def ready_game():
     wall.bg_index = data['bg_pattern']
     bricks = data['bricks']
 
+    global ball
+    ball.x, ball.y, ball.angle, ball.speed = tuple(data['ball'])
     for d in bricks:
         brick = Brick(d["x"], d["y"], d["t"])
         game_world.add_object(brick, game_world.layer_obstacle)
@@ -212,7 +219,7 @@ def update():
     wall.didBounce(ball)
     player.didBounce(ball)
 
-    global stage
+    global stage, stage_number
     for b in game_world.objects_at_layer(game_world.layer_obstacle):
         if b.didBounce(ball):
             if stage != None and 'scores' in stage:
@@ -223,6 +230,9 @@ def update():
             if b.life == 0:
                 player.score += score
                 update_score()
+                count = game_world.count_at_layer(game_world.layer_obstacle)
+                if count == 0:
+                    goto_next_stage()
             break
 
     delay(0.01)
