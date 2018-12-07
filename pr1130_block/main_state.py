@@ -47,7 +47,7 @@ gameState = GAMESTATE_READY
 stage = None
 
 def enter():
-    global player, life, scoreLabel
+    global player, life, scoreStatic, scoreLabel
     bg = Background()
     game_world.add_object(bg, game_world.layer_bg)
     player = Player()
@@ -63,35 +63,19 @@ def enter():
     game_world.add_object(wall, game_world.layer_bg)
     bg.target = player
 
-    f = open('stage_1.json', 'r')
-    data = json.load(f)
-    f.close()
-
-    global stage
-    stage = data
-
-    wall.bg_index = data['bg_pattern']
-    bricks = data['bricks']
-
-    for d in bricks:
-        brick = Brick(d["x"], d["y"], d["t"])
-        game_world.add_object(brick, game_world.layer_obstacle)
+    global stage_number
+    stage_number = 1
 
     cw = get_canvas_width()
     ch = get_canvas_height()
 
-    label = ui.Label("Score:", cw - 200, get_canvas_height() - 55, 36, ui.FONT_2)
-    if 'label_s1' in data:
-        label.color = tuple(data['label_s1'])
-    else:
-        label.color = (255, 191, 127)
+    label = ui.Label("Score:", cw - 200, ch - 55, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
     ui.labels.append(label)
+    scoreStatic = label
 
-    label = ui.Label("0", cw - 200, get_canvas_height() - 100, 36, ui.FONT_2)
-    if 'label_s2' in data:
-        label.color = tuple(data['label_s2'])
-    else:
-        label.color = (255, 191, 127)
+    label = ui.Label("0", cw - 200, ch - 100, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
     ui.labels.append(label)
     scoreLabel = label
 
@@ -105,7 +89,7 @@ def enter():
 
     game_world.isPaused = isPaused
 
-    # ready_game()
+    ready_game()
 
     global gameOverImage
     # gameOverImage = load_image('game_over.png')
@@ -123,7 +107,27 @@ def ready_game():
     gameState = GAMESTATE_READY
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
     game_world.remove_objects_at_layer(game_world.layer_item)
-    player.init(Life.LIFE_AT_START)
+
+    f = open('stage_' + str(stage_number) + '.json', 'r')
+    data = json.load(f)
+    f.close()
+
+    global stage
+    stage = data
+
+    wall.bg_index = data['bg_pattern']
+    bricks = data['bricks']
+
+    for d in bricks:
+        brick = Brick(d["x"], d["y"], d["t"])
+        game_world.add_object(brick, game_world.layer_obstacle)
+
+    global scoreStatic, scoreLabel
+    if 'label_s1' in data:
+        scoreStatic.color = tuple(data['label_s1'])
+    if 'label_s2' in data:
+        scoreLabel.color = tuple(data['label_s2'])
+    # player.init(Life.LIFE_AT_START)
     update_score()
 
 def end_game():
