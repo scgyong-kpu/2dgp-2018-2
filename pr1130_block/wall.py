@@ -9,8 +9,8 @@ class WallRect:
         return self.bb
 
 class Wall:
-    PATTERN_WIDTH = 64
-    PATTERN_HEIGHT = 64
+    PATTERN_WIDTH = 32
+    PATTERN_HEIGHT = 32
     def __init__(self):
         f = open('wall.json')
         d = json.load(f)
@@ -22,10 +22,10 @@ class Wall:
         self.top = WallRect(self.top_l)
         self.image = load_image(self.image_name)
         self.bg_pattern = load_image(self.bg_pattern_name)
-        cx = self.bg_pattern.w // Wall.PATTERN_WIDTH
-        cy = self.bg_pattern.h // Wall.PATTERN_HEIGHT
-        print(cx, cy, self.bg_pattern.w, self.bg_pattern.h)
-        self.pattern_count = cx * cy
+        self.cx = self.bg_pattern.w // Wall.PATTERN_WIDTH
+        self.cy = self.bg_pattern.h // Wall.PATTERN_HEIGHT
+        print(self.cx, self.cy, self.bg_pattern.w, self.bg_pattern.h)
+        self.pattern_count = self.cx * self.cy
         self.bg_index = -1
     def update(self):
         pass
@@ -39,8 +39,8 @@ class Wall:
         ch = get_canvas_height()
         pw, ph = Wall.PATTERN_WIDTH, Wall.PATTERN_HEIGHT
         if self.bg_index >= 0:
-            ix = self.bg_index % 14
-            iy = self.bg_index // 14
+            ix = self.bg_index % self.cx
+            iy = self.bg_index // self.cx
             y = 0
             while y < ch:
                 x = 0
