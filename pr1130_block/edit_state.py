@@ -200,6 +200,8 @@ def update_bg_index():
 
 def save():
     global stage, saved, stage_number, max_stage_number
+    bricks = list(game_world.objects_at_layer(game_world.layer_obstacle))
+    stage['bricks'] = list(map(Brick.dict, bricks))
     print(stage)
     f = open('stage_' + str(stage_number) + '.json', 'w')
     json.dump(stage, f, indent = 2)
@@ -356,9 +358,9 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_s):
             save()
         elif e.type == SDL_MOUSEBUTTONDOWN:
-            if player.mouse_control:
-                toggle_paused()
-                return
+            x, y = e.x, get_canvas_height() - e.y
+            b = Brick(x, y, 1)
+            game_world.add_object(b, game_world.layer_obstacle)
 
         # handled = player.handle_event(e)
         # if handled:

@@ -46,6 +46,8 @@ class Brick:
         if self.life == 0:
             gw.remove_object(self)
         return True
+    def dict(self):
+        return {'x':self.x, 'y':self.y, 't':self.type}
 
 
 
