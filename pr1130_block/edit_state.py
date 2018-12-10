@@ -79,6 +79,17 @@ def enter():
     ui.labels.append(label)
     scoreLabel = label
 
+    global stageStatic, stageLabel
+    label = ui.Label("Stage:", cw - 200, ch - 155, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    stageStatic = label
+
+    label = ui.Label("1", cw - 200, ch - 200, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    stageLabel = label
+
     global highscore
     highscore = Highscore()
 
@@ -275,12 +286,12 @@ def handle_events():
                 toggle_paused()
                 return
 
-        handled = player.handle_event(e)
-        if handled:
-            if gameState == GAMESTATE_READY:
-                start_game()
-            elif gameState == GAMESTATE_PAUSED:
-                gameState = GAMESTATE_INPLAY
+        # handled = player.handle_event(e)
+        # if handled:
+        #     if gameState == GAMESTATE_READY:
+        #         start_game()
+        #     elif gameState == GAMESTATE_PAUSED:
+        #         gameState = GAMESTATE_INPLAY
         ui.handle_event(e)
 
 def exit():
