@@ -118,12 +118,20 @@ def goto_next_stage():
     stage_number += 1
     ready_game()
 
+def goto_prev_stage():
+    global stage_number
+    if stage_number == 1: return
+    stage_number -= 1
+    ready_game()
+
 def ready_game():
     global gameState
     gameState = GAMESTATE_READY
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
     game_world.remove_objects_at_layer(game_world.layer_item)
 
+    global stage_number
+    
     f = open('stage_' + str(stage_number) + '.json', 'r')
     data = json.load(f)
     f.close()
@@ -147,6 +155,9 @@ def ready_game():
         scoreLabel.color = tuple(data['label_s2'])
     # player.init(Life.LIFE_AT_START)
     update_score()
+
+    global stageLabel
+    stageLabel.text = str(stage_number)
 
 def end_game():
     global gameState, player, highscore
@@ -277,10 +288,10 @@ def handle_events():
             game_framework.pop_state()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_SPACE):
             toggle_paused()
-        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_q):
-            ball.speed *= 2
-        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_e):
-            ball.speed /= 2
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_LEFTBRACKET):
+            goto_prev_stage()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHTBRACKET):
+            goto_next_stage()
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
                 toggle_paused()
