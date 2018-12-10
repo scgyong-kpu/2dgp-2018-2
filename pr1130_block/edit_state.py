@@ -163,6 +163,7 @@ def ready_game():
 
     if data == None:
         bricks = []
+        stage['bricks'] = []
     else:
         stage = data
 
@@ -193,9 +194,13 @@ def update_stage_label():
         stageLabel.text += ' Edit'
 
 def update_bg_index():
-    global bgLabel, wall
+    global bgLabel, wall, stage
     bgLabel.text = str(wall.bg_index)
+    stage['bg_pattern'] = wall.bg_index
 
+def save():
+    global stage
+    print(stage)
 def end_game():
     global gameState, player, highscore
     gameState = GAMESTETE_GAMEOVER
@@ -339,6 +344,8 @@ def handle_events():
             update_bg_index()
             saved = False
             update_stage_label()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_s):
+            save()
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
                 toggle_paused()
