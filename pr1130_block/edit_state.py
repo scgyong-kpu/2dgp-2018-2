@@ -45,6 +45,8 @@ wav_bomb = None
 wav_item = None
 gameState = GAMESTATE_READY
 stage = None
+saved = True
+max_stage_number = 1
 
 def enter():
     global player, life, scoreStatic, scoreLabel
@@ -114,7 +116,8 @@ def start_game():
     # music_bg.repeat_play()
 
 def goto_next_stage():
-    global stage_number
+    global stage_number, max_stage_number
+    if stage_number >= max_stage_number: return
     stage_number += 1
     ready_game()
 
@@ -130,29 +133,38 @@ def ready_game():
     game_world.remove_objects_at_layer(game_world.layer_obstacle)
     game_world.remove_objects_at_layer(game_world.layer_item)
 
-    global stage_number
-    
-    f = open('stage_' + str(stage_number) + '.json', 'r')
-    data = json.load(f)
-    f.close()
+    global stage_number, max_stage_number
+
+    try:
+        f = open('stage_' + str(stage_number) + '.json', 'r')
+        data = json.load(f)
+        f.close()
+        if max_stage_number <= stage_number:
+            max_stage_number = stage_number + 1
+    except IOError:
+        data = None
 
     global stage
-    stage = data
 
-    wall.bg_index = data['bg_pattern']
-    bricks = data['bricks']
+    if data == None:
+        bricks = []
+    else:
+        stage = data
+
+        wall.bg_index = data['bg_pattern']
+        bricks = data['bricks']
 
     global ball
-    ball.x, ball.y, ball.angle, ball.speed = tuple(data['ball'])
+    ball.x, ball.y, ball.angle, ball.speed = tuple(stage['ball'])
     for d in bricks:
         brick = Brick(d["x"], d["y"], d["t"])
         game_world.add_object(brick, game_world.layer_obstacle)
 
     global scoreStatic, scoreLabel
-    if 'label_s1' in data:
-        scoreStatic.color = tuple(data['label_s1'])
-    if 'label_s2' in data:
-        scoreLabel.color = tuple(data['label_s2'])
+    if 'label_s1' in stage:
+        scoreStatic.color = tuple(stage['label_s1'])
+    if 'label_s2' in stage:
+        scoreLabel.color = tuple(stage['label_s2'])
     # player.init(Life.LIFE_AT_START)
     update_score()
 
