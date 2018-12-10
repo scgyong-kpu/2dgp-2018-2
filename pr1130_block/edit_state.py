@@ -202,7 +202,7 @@ def save():
     global stage, saved, stage_number, max_stage_number
     print(stage)
     f = open('stage_' + str(stage_number) + '.json', 'w')
-    json.dump(stage, f)
+    json.dump(stage, f, indent = 2)
     f.close()
     saved = True
     if max_stage_number <= stage_number:
