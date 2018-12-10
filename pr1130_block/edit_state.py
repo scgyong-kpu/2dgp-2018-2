@@ -199,8 +199,17 @@ def update_bg_index():
     stage['bg_pattern'] = wall.bg_index
 
 def save():
-    global stage
+    global stage, saved, stage_number, max_stage_number
     print(stage)
+    f = open('stage_' + str(stage_number) + '.json', 'w')
+    json.dump(stage, f)
+    f.close()
+    saved = True
+    if max_stage_number <= stage_number:
+        max_stage_number = stage_number + 1
+
+    update_stage_label()
+
 def end_game():
     global gameState, player, highscore
     gameState = GAMESTETE_GAMEOVER
