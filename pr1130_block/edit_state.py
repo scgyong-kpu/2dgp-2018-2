@@ -127,13 +127,17 @@ def start_game():
     # music_bg.repeat_play()
 
 def goto_next_stage():
-    global stage_number, max_stage_number
+    global stage_number, max_stage_number, saved
+    if not saved:
+        return
     if stage_number >= max_stage_number: return
     stage_number += 1
     ready_game()
 
 def goto_prev_stage():
-    global stage_number
+    global stage_number, saved
+    if not saved:
+        return
     if stage_number == 1: return
     stage_number -= 1
     ready_game()
@@ -177,12 +181,16 @@ def ready_game():
     if 'label_s2' in stage:
         scoreLabel.color = tuple(stage['label_s2'])
     # player.init(Life.LIFE_AT_START)
+
     update_score()
-
-    global stageLabel
-    stageLabel.text = str(stage_number)
-
+    update_stage_label()
     update_bg_index()
+
+def update_stage_label():
+    global stageLabel, saved
+    stageLabel.text = str(stage_number)
+    if not saved:
+        stageLabel.text += ' Edit'
 
 def update_bg_index():
     global bgLabel, wall
@@ -308,7 +316,7 @@ def toggle_paused():
         gameState = GAMESTATE_INPLAY
 
 def handle_events():
-    global player, gameState, ball, wall
+    global player, gameState, ball, wall, saved
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -324,9 +332,13 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_MINUS):
             wall.changeIndex(-1)
             update_bg_index()
+            saved = False
+            update_stage_label()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_EQUALS):
             wall.changeIndex(1)
             update_bg_index()
+            saved = False
+            update_stage_label()
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
                 toggle_paused()
