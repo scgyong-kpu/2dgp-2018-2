@@ -92,6 +92,17 @@ def enter():
     ui.labels.append(label)
     stageLabel = label
 
+    global bgStatic, bgLabel
+    label = ui.Label("BG Idx:", cw - 200, ch - 255, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    bgStatic = label
+
+    label = ui.Label("1", cw - 200, ch - 300, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    bgLabel = label
+
     global highscore
     highscore = Highscore()
 
@@ -170,6 +181,12 @@ def ready_game():
 
     global stageLabel
     stageLabel.text = str(stage_number)
+
+    update_bg_index()
+
+def update_bg_index():
+    global bgLabel, wall
+    bgLabel.text = str(wall.bg_index)
 
 def end_game():
     global gameState, player, highscore
@@ -291,7 +308,7 @@ def toggle_paused():
         gameState = GAMESTATE_INPLAY
 
 def handle_events():
-    global player, gameState, ball
+    global player, gameState, ball, wall
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -304,6 +321,12 @@ def handle_events():
             goto_prev_stage()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_RIGHTBRACKET):
             goto_next_stage()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_MINUS):
+            wall.changeIndex(-1)
+            update_bg_index()
+        elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_EQUALS):
+            wall.changeIndex(1)
+            update_bg_index()
         elif e.type == SDL_MOUSEBUTTONDOWN:
             if player.mouse_control:
                 toggle_paused()

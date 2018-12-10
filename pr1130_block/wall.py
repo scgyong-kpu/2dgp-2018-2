@@ -1,6 +1,7 @@
 import json
 from pico2d import *
 
+
 class WallRect:
     def __init__(self, rect):
         self.bb = tuple(rect)
@@ -8,6 +9,8 @@ class WallRect:
         return self.bb
 
 class Wall:
+    PATTERN_WIDTH = 64
+    PATTERN_HEIGHT = 64
     def __init__(self):
         f = open('wall.json')
         d = json.load(f)
@@ -19,13 +22,22 @@ class Wall:
         self.top = WallRect(self.top_l)
         self.image = load_image(self.image_name)
         self.bg_pattern = load_image(self.bg_pattern_name)
+        cx = self.bg_pattern.w // Wall.PATTERN_WIDTH
+        cy = self.bg_pattern.h // Wall.PATTERN_HEIGHT
+        print(cx, cy, self.bg_pattern.w, self.bg_pattern.h)
+        self.pattern_count = cx * cy
         self.bg_index = -1
     def update(self):
         pass
+    def changeIndex(self, diff):
+        next = self.bg_index + diff
+        if next < 0: return
+        if next >= self.pattern_count: return
+        self.bg_index = next
     def draw(self):
         cw = get_canvas_width()
         ch = get_canvas_height()
-        pw, ph = 64, 64
+        pw, ph = Wall.PATTERN_WIDTH, Wall.PATTERN_HEIGHT
         if self.bg_index >= 0:
             ix = self.bg_index % 14
             iy = self.bg_index // 14
