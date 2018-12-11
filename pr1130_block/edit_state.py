@@ -13,6 +13,10 @@ from brick import Brick
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 BULLETS_AT_START = 10
+NUM_KEYS = [ \
+    SDLK_0, SDLK_1, SDLK_2, SDLK_3, SDLK_4, \
+    SDLK_5, SDLK_6, SDLK_7, SDLK_8, SDLK_9 \
+]
 
 class Life:
     red = None
@@ -377,6 +381,11 @@ def handle_events():
             add_brick(e.x, get_canvas_height() - e.y)
         elif e.type == SDL_MOUSEMOTION:
             brick.x, brick.y = e.x, get_canvas_height() - e.y
+        elif e.type == SDL_KEYDOWN and e.key in NUM_KEYS:
+            t = e.key - SDLK_0
+            if t == 0: t = 10
+            brick.type = t
+
 
         # handled = player.handle_event(e)
         # if handled:
