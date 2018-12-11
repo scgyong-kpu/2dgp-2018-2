@@ -190,7 +190,7 @@ def ready_game():
     # player.init(Life.LIFE_AT_START)
 
     global brick
-    brick = Brick(0, 0, 1)
+    brick = Brick(0, 0, 1, True)
 
     update_score()
     update_stage_label()
@@ -234,7 +234,7 @@ def add_brick(x, y):
             return
     game_world.add_object(brick, game_world.layer_obstacle)
     mark_edited()
-    brick = Brick(x, y, brick.type)
+    brick = Brick(x, y, brick.type, True)
 
 def move_brick(x, y):
     global brick
