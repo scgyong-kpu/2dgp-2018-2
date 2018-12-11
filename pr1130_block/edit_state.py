@@ -231,6 +231,10 @@ def add_brick(x, y):
     mark_edited()
     brick = Brick(x, y, brick.type)
 
+def move_brick(x, y):
+    global brick
+    brick.x, brick.y = x, y
+ 
 def end_game():
     global gameState, player, highscore
     gameState = GAMESTETE_GAMEOVER
@@ -380,7 +384,7 @@ def handle_events():
         elif e.type == SDL_MOUSEBUTTONDOWN:
             add_brick(e.x, get_canvas_height() - e.y)
         elif e.type == SDL_MOUSEMOTION:
-            brick.x, brick.y = e.x, get_canvas_height() - e.y
+            move_brick(e.x, get_canvas_height() - e.y)
         elif e.type == SDL_KEYDOWN and e.key in NUM_KEYS:
             t = e.key - SDLK_0
             if t == 0: t = 10
