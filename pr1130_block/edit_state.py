@@ -47,6 +47,7 @@ gameState = GAMESTATE_READY
 stage = None
 saved = True
 max_stage_number = 1
+brick = None
 
 def enter():
     global player, life, scoreStatic, scoreLabel
@@ -173,8 +174,8 @@ def ready_game():
     global ball
     ball.x, ball.y, ball.angle, ball.speed = tuple(stage['ball'])
     for d in bricks:
-        brick = Brick(d["x"], d["y"], d["t"])
-        game_world.add_object(brick, game_world.layer_obstacle)
+        b = Brick(d["x"], d["y"], d["t"])
+        game_world.add_object(b, game_world.layer_obstacle)
 
     global scoreStatic, scoreLabel
     if 'label_s1' in stage:
@@ -182,6 +183,9 @@ def ready_game():
     if 'label_s2' in stage:
         scoreLabel.color = tuple(stage['label_s2'])
     # player.init(Life.LIFE_AT_START)
+
+    global brick
+    brick = Brick(0, 0, 1)
 
     update_score()
     update_stage_label()
@@ -211,6 +215,12 @@ def save():
         max_stage_number = stage_number + 1
 
     update_stage_label()
+
+def add_brick(x, y):
+    global saved, brick
+    game_world.add_object(brick, game_world.layer_obstacle)
+    saved = False
+    brick = Brick(x, y, brick.type)
 
 def end_game():
     global gameState, player, highscore
@@ -267,6 +277,9 @@ def draw():
     clear_canvas()
     game_world.draw()
     ui.draw()
+
+    global brick
+    brick.draw()
 
     global player
     life.draw(player.life)
@@ -332,7 +345,7 @@ def toggle_paused():
         gameState = GAMESTATE_INPLAY
 
 def handle_events():
-    global player, gameState, ball, wall, saved
+    global player, gameState, ball, wall, saved, brick
     events = get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -358,9 +371,9 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_s):
             save()
         elif e.type == SDL_MOUSEBUTTONDOWN:
-            x, y = e.x, get_canvas_height() - e.y
-            b = Brick(x, y, 1)
-            game_world.add_object(b, game_world.layer_obstacle)
+            add_brick(e.x, get_canvas_height() - e.y)
+        elif e.type == SDL_MOUSEMOTION:
+            brick.x, brick.y = e.x, get_canvas_height() - e.y
 
         # handled = player.handle_event(e)
         # if handled:
