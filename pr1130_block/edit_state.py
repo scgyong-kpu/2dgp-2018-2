@@ -233,6 +233,7 @@ def add_brick(x, y):
 
 def move_brick(x, y):
     global brick
+    x, y = x // 11 * 11, y // 11 * 11
     brick.x, brick.y = x, y
  
 def end_game():
