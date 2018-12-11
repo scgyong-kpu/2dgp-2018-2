@@ -10,6 +10,7 @@ from background import Background
 from highscore import Highscore
 from wall import Wall
 from brick import Brick
+from game_object import GameObject
 
 GAMESTATE_READY, GAMESTATE_INPLAY, GAMESTATE_PAUSED, GAMESTETE_GAMEOVER = range(4)
 BULLETS_AT_START = 10
@@ -227,13 +228,17 @@ def mark_edited():
 
 def add_brick(x, y):
     global saved, brick
+    for b in game_world.objects_at_layer(game_world.layer_obstacle):
+        if GameObject.intersection(b, brick) != None:
+            game_world.remove_object(b)
+            return
     game_world.add_object(brick, game_world.layer_obstacle)
     mark_edited()
     brick = Brick(x, y, brick.type)
 
 def move_brick(x, y):
     global brick
-    x, y = x // 11 * 11, y // 11 * 11
+    x, y = x // 11 * 11 - 7, y // 11 * 11 + 5
     brick.x, brick.y = x, y
  
 def end_game():
