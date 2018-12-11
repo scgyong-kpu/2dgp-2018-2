@@ -216,10 +216,15 @@ def save():
 
     update_stage_label()
 
+def mark_edited():
+    global saved
+    saved = False
+    update_stage_label()
+
 def add_brick(x, y):
     global saved, brick
     game_world.add_object(brick, game_world.layer_obstacle)
-    saved = False
+    mark_edited()
     brick = Brick(x, y, brick.type)
 
 def end_game():
@@ -361,13 +366,11 @@ def handle_events():
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_MINUS):
             wall.changeIndex(-1)
             update_bg_index()
-            saved = False
-            update_stage_label()
+            mark_edited()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_EQUALS):
             wall.changeIndex(1)
             update_bg_index()
-            saved = False
-            update_stage_label()
+            mark_edited()
         elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_s):
             save()
         elif e.type == SDL_MOUSEBUTTONDOWN:
