@@ -33,6 +33,9 @@ class Brick:
         # print(index, self.x, self.y)
         self.image.clip_draw(58 * index, 0, 58, 36, self.x + 7, self.y - 7)
         # draw_rectangle(*self.get_bb())
+    def orderValue(self):
+        x, y =  self.x//44, (get_canvas_height() - self.y)//22
+        return (x + y) * 1000 + y
     def get_bb(self):
         return self.x-self.w/2, self.y-self.h/2, self.x+self.w/2, self.y+self.h/2
     def didBounce(self, ball):

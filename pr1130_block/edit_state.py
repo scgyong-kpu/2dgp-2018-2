@@ -178,8 +178,10 @@ def ready_game():
 
     global ball
     ball.x, ball.y, ball.angle, ball.speed = tuple(stage['ball'])
-    for d in bricks:
-        b = Brick(d["x"], d["y"], d["t"])
+
+    bricks = list(map(lambda d: Brick(d["x"], d["y"], d["t"]), bricks))
+    bricks.sort(key=lambda b:b.orderValue())
+    for b in bricks:
         game_world.add_object(b, game_world.layer_obstacle)
 
     global scoreStatic, scoreLabel
@@ -228,11 +230,22 @@ def mark_edited():
 
 def add_brick(x, y):
     global saved, brick
+    ord_val = brick.orderValue()
+    index = 0
+    at = -1
     for b in game_world.objects_at_layer(game_world.layer_obstacle):
         if GameObject.intersection(b, brick) != None:
             game_world.remove_object(b)
             return
-    game_world.add_object(brick, game_world.layer_obstacle)
+        if at < 0:
+            if b.orderValue() > ord_val:
+                at = index
+        index += 1
+    print('at:', at, 'ord_val:', ord_val)
+    if at >= 0:
+        game_world.add_object_at(brick, at, game_world.layer_obstacle)
+    else:
+        game_world.add_object(brick, game_world.layer_obstacle)
     mark_edited()
     brick = Brick(x, y, brick.type, True)
 

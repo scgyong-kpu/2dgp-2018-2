@@ -6,6 +6,8 @@ layer_item = 3
 
 def add_object(o, layer):
 	objects[layer].append(o)
+def add_object_at(o, index, layer):
+	objects[layer].insert(index, o)
 def remove_object(o):
 	for i in range(len(objects)):
 		if o in objects[i]:
@@ -19,9 +21,12 @@ def remove_objects_at_layer(layer):
 		del o
 	objects[layer] = []
 def clear():
+	global objects
 	for o in all_objects():
 		del o
 	objects.clear()
+	objects = [[],[],[],[]]
+	# print('gw.clear():', objects)
 def all_objects():
 	for i in range(len(objects)):
 		for o in objects[i]:
