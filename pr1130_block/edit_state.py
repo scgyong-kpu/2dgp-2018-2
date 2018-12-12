@@ -109,6 +109,17 @@ def enter():
     ui.labels.append(label)
     bgLabel = label
 
+    global nameStatic, nameLabel
+    label = ui.Label("Designer:", cw - 220, ch - 350, 30, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    nameStatic = label
+
+    label = ui.Label("", cw - 190, ch - 400, 36, ui.FONT_2)
+    label.color = (255, 191, 127)
+    ui.labels.append(label)
+    nameLabel = label
+
     global highscore
     highscore = Highscore()
 
@@ -184,12 +195,17 @@ def ready_game():
     for b in bricks:
         game_world.add_object(b, game_world.layer_obstacle)
 
-    global scoreStatic, scoreLabel
+    global scoreStatic, scoreLabel, nameLabel
     if 'label_s1' in stage:
-        scoreStatic.color = tuple(stage['label_s1'])
+        color = tuple(stage['label_s1'])
+        scoreStatic.color = color
+        nameStatic.color = color
     if 'label_s2' in stage:
-        scoreLabel.color = tuple(stage['label_s2'])
-    # player.init(Life.LIFE_AT_START)
+        color = tuple(stage['label_s2'])
+        scoreLabel.color = color
+        nameLabel.color = color
+    if 'designer' in stage:
+        nameLabel.text = stage['designer']
 
     global brick
     brick = Brick(0, 0, 1, True)
